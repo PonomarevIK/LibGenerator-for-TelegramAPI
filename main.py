@@ -48,11 +48,9 @@ def parse_table(table: bs4.element.Tag):
     return parameters
 
 
-def main(language="Python"):
+def main(language):
     # html tree within div#dev_page_content - div containing everything we need to parse
     soup = get_html_tree(DOCS_LOCATION, bs4.SoupStrainer("div", id="dev_page_content"))
-    # this is where introduction ends and objects/methods documentation begins, <h3>...Getting updates</h3>
-    docs_beginning = soup.find("a", class_="anchor", href="#getting-updates")
 
     types_output_file = open(f"Generated code\\{language}\\types.py", "w")
 
@@ -64,7 +62,7 @@ def main(language="Python"):
     with open(f"Templates\\{language}\\method_template.txt", "r") as m_template:
         method_template = m_template.read()
 
-    for h4 in docs_beginning.find_all_next("h4"):
+    for h4 in soup.find_all_next("h4"):
         name = h4.text
 
         paragraph = h4.next_sibling_tag
@@ -96,4 +94,4 @@ def main(language="Python"):
 
 
 if __name__ == "__main__":
-    main()
+    main("Python")

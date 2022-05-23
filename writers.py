@@ -57,9 +57,6 @@ class PythonObjectWriter(BaseObject):
         return ["{name}: {type}".format(**param) for param in self.parameters if not param["is_optional"]] + \
                ["{name}: {type} = None".format(**param) for param in self.parameters if param["is_optional"]]
 
-    def __str__(self):
-        return f"class {self.name}:\n    def __init__(self{(', ' if self.parameters else '') + ', '.join(self.get_argument_list())})\n        pass"
-
 
 class PythonMethodWriter(PythonObjectWriter, BaseMethod):
     header = ("import requests\n",
@@ -82,6 +79,3 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
                 yield "if {name} is not None:\n        payload['{name}'] = {name}".format(**parameter)
             else:
                 yield "payload['{name}'] = {name}".format(**parameter)
-
-    def __str__(self):
-        return f"def {self.name}({', '.join(self.get_argument_list())}) -> {self.return_type}:\n    \"\"\"{self.description}\"\"\""
