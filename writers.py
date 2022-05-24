@@ -105,7 +105,5 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
                 output_file.write(PythonMethodWriter.header)
             PythonMethodWriter.file_empty = False
         with open("Generated code\\Python\\methods.py", "a", encoding="utf-8") as output_file:
-            output_file.write(self.template.format(name=self.name, params=", ".join(self.get_argument_list()),
-                                                   return_type=self.return_type, description=self.description,
-                                                   payload=self.payload))
+            output_file.write(self.template.format(name=self.name, params=", ".join(self.get_argument_list()), return_type=self.return_type, description=self.description,payload=self.payload))
             output_file.write("\n\n")
