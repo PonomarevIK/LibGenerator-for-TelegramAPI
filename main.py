@@ -1,8 +1,9 @@
 import bs4
 import os
-from writers import PythonObjectWriter, PythonMethodWriter
+import writers
 
-DOCS_LOCATION = "https://core.telegram.org/bots/api"
+# DOCS_LOCATION = "https://core.telegram.org/bots/api"
+DOCS_LOCATION = "Telegram Bot API.html"
 
 
 @property
@@ -14,7 +15,6 @@ def next_sibling_tag(self):
             return tag
     return None
 bs4.element.PageElement.next_sibling_tag = next_sibling_tag
-
 
 
 def get_html_tree(source: str, strainer: bs4.SoupStrainer = None, parser="html.parser") -> bs4.BeautifulSoup:
@@ -52,17 +52,7 @@ def main(language):
     # html tree within div#dev_page_content - div containing everything we need to parse
     soup = get_html_tree(DOCS_LOCATION, bs4.SoupStrainer("div", id="dev_page_content"))
 
-    types_output_file = open(f"Generated code\\{language}\\types.py", "w")
-
-    methods_output_file = open(f"Generated code\\{language}\\methods.py", "w", encoding="utf-8")
-    methods_output_file.write(PythonMethodWriter.header)
-
-    with open(f"Templates\\{language}\\type_template.txt", "r") as t_template:
-        type_template = t_template.read()
-    with open(f"Templates\\{language}\\method_template.txt", "r") as m_template:
-        method_template = m_template.read()
-
-    for h4 in soup.find_all_next("h4"):
+    for h4 in soup.find_all("h4"):
         name = h4.text
 
         paragraph = h4.next_sibling_tag
@@ -72,23 +62,13 @@ def main(language):
         parameters = parse_table(table) if table.name == "table" else []
 
         if name[0].islower():
-            # To distinguish a section containing method description from any other section we look for an <h4> header
-            # that starts with a lowercase letter. Other ways (like having a word "method" in section's description)
-            # are not consistent across the entire documentation
-            tg_method = PythonMethodWriter(name, description, parameters)
-            methods_output_file.write(method_template.format(name=tg_method.name,
-                                                             params=", ".join(tg_method.get_argument_list()),
-                                                             return_type=tg_method.return_type,
-                                                             description=tg_method.description,
-                                                             payload=tg_method.payload))
-            methods_output_file.write("\n\n")
+            # To distinguish a section containing method description from any other section
+            # look for an <h4> header that starts with a lowercase letter
+            tg_method = writers.PythonMethodWriter(name, description, parameters)
+            tg_method.write_to_file()
         elif " " not in name:
-            tg_object = PythonObjectWriter(name, description, parameters)
-            types_output_file.write(type_template.format(name=tg_object.name, description=tg_object.description))
-            types_output_file.write("\n\n")
-
-    types_output_file.close()
-    methods_output_file.close()
+            tg_object = writers.PythonObjectWriter(name, description, parameters)
+            tg_object.write_to_file()
 
     # os.system('autopep8 --in-place --aggressive --aggressive "Generated code/Python/methods.py"')
 
