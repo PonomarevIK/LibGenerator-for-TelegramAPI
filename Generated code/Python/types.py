@@ -1,5 +1,13 @@
+import requests
+from types import *
+
+API_URL = 'https://api.telegram.org/bot{token}/{method}'
+token = 'your_bot_token_here'
+
+
 class Update:
-    """This object represents an incoming update.At most one of the optional parameters can be present in any given update."""
+    """This object represents an incoming update.
+          At most one of the optional parameters can be present in any given update."""
     pass
 
 
@@ -661,5 +669,3 @@ class CallbackGame:
 class GameHighScore:
     """This object represents one row of the high scores table for a game."""
     pass
-
-

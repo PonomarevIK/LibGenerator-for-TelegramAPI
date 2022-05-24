@@ -1,9 +1,9 @@
 def {name}({params}) -> {return_type}:
-    """{description}"""
-    payload = {{}}
-    {payload}
+\t"""{description}"""
+\tpayload = {{}}
+\t{payload}
 
-    result = requests.get(API_URL.format(token=token, method={name}), params=payload).json()
-    if not result['ok']:
-        raise Exception('Error {{errno}}: {{error}}'.format(errno = result['error_code'], error = result['description']))
-    return result
+\tresult = requests.get(API_URL.format(token=token, method={name}), params=payload).json()
+\tif not result['ok']:
+\t\traise Exception('Error {{errno}}: {{error}}'.format(errno = result['error_code'], error = result['description']))
+\treturn result

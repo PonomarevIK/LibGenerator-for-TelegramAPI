@@ -33,6 +33,7 @@ class BaseMethod(BaseObject):
 
 
 class PythonObjectWriter(BaseObject):
+    file_empty = True
     replacements = {
         " or ": " | ",
         "[": "list[",
@@ -41,6 +42,10 @@ class PythonObjectWriter(BaseObject):
         "Int": "int",
         "Float": "float",
         "String": "str"}
+    header = ""
+
+    with open("Templates\\Python\\type_template.txt", "r", encoding="unicode_escape") as template_file:
+        template = template_file.read()
 
     def __init__(self, name, description, parameters):
         super().__init__(name, description, parameters)
@@ -50,23 +55,37 @@ class PythonObjectWriter(BaseObject):
         for i, parameter in enumerate(self.parameters):
             if iskeyword(parameter["name"]):
                 self.parameters[i]["name"] += "_"
-            for old, new in self.replacements.items():
+            for old, new in PythonObjectWriter.replacements.items():
                 self.parameters[i]["type"] = self.parameters[i]["type"].replace(old, new)
 
     def get_argument_list(self):
         return ["{name}: {type}".format(**param) for param in self.parameters if not param["is_optional"]] + \
                ["{name}: {type} = None".format(**param) for param in self.parameters if param["is_optional"]]
 
+    def write_to_file(self):
+        if PythonObjectWriter.file_empty:
+            with open("Generated code\\Python\\types.py", "w", encoding="utf-8") as output_file:
+                output_file.write(PythonMethodWriter.header)
+            PythonObjectWriter.file_empty = False
+        with open("Generated code\\Python\\types.py", "a", encoding="utf-8") as output_file:
+            output_file.write(self.template.format(name=self.name, description=self.description))
+            output_file.write("\n\n")
+
 
 class PythonMethodWriter(PythonObjectWriter, BaseMethod):
-    header = ("import requests\n",
-              "from types import *\n\n",
-              f"API_URL = {API_URL}\n"
-              "token = 'your_bot_token_here'\n")
+    file_empty = True
+    header = ("import requests\n"
+              "from types import *\n\n"
+              f"API_URL = '{API_URL}'\n"
+              "token = 'your_bot_token_here'\n"
+              "\n\n")
+
+    with open("Templates\\Python\\method_template.txt", "r", encoding="unicode_escape") as template_file:
+        template = template_file.read()
 
     def __init__(self, name, description, parameters):
         super().__init__(name, description, parameters)
-        self.payload = "\n    ".join(self.payload_generator())
+        self.payload = "\n\t".join(self.payload_generator())
         self.pythonify_return_type()
 
     def pythonify_return_type(self):
@@ -76,6 +95,17 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
     def payload_generator(self):
         for parameter in self.parameters:
             if parameter["is_optional"]:
-                yield "if {name} is not None:\n        payload['{name}'] = {name}".format(**parameter)
+                yield "if {name} is not None:\n\t\tpayload['{name}'] = {name}".format(**parameter)
             else:
                 yield "payload['{name}'] = {name}".format(**parameter)
+
+    def write_to_file(self):
+        if PythonMethodWriter.file_empty:
+            with open("Generated code\\Python\\methods.py", "w", encoding="utf-8") as output_file:
+                output_file.write(PythonMethodWriter.header)
+            PythonMethodWriter.file_empty = False
+        with open("Generated code\\Python\\methods.py", "a", encoding="utf-8") as output_file:
+            output_file.write(self.template.format(name=self.name, params=", ".join(self.get_argument_list()),
+                                                   return_type=self.return_type, description=self.description,
+                                                   payload=self.payload))
+            output_file.write("\n\n")
