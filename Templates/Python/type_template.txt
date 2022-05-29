@@ -1,3 +1,4 @@
 class {name}:
 \t"""{description}"""
-\tpass
+\tdef __init__(self, json):
+\t\tpass

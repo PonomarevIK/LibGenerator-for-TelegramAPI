@@ -1,3 +1,5 @@
+# This code in it's entirety was automatically generated and formated
+
 import requests
 from types import *
 
@@ -5,11 +7,8 @@ API_URL = 'https://api.telegram.org/bot{token}/{method}'
 token = 'your_bot_token_here'
 
 
-def getUpdates(
-        offset: int = None,
-        limit: int = None,
-        timeout: int = None,
-        allowed_updates: list[str] = None) -> list[Update]:
+def getUpdates(offset: int = None, limit: int = None, timeout: int = None,
+               allowed_updates: list[str] = None) -> list[Update]:
     """Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned."""
     payload = {}
     if offset is not None:
@@ -31,7 +30,7 @@ def getUpdates(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return list[Update](result)
 
 
 def setWebhook() -> bool:
@@ -48,7 +47,7 @@ def setWebhook() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def deleteWebhook(drop_pending_updates: bool = None) -> bool:
@@ -67,7 +66,7 @@ def deleteWebhook(drop_pending_updates: bool = None) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def getWebhookInfo() -> WebhookInfo:
@@ -84,7 +83,7 @@ def getWebhookInfo() -> WebhookInfo:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return WebhookInfo(result)
 
 
 def getMe() -> User:
@@ -101,7 +100,7 @@ def getMe() -> User:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return User(result)
 
 
 def logOut() -> bool:
@@ -118,7 +117,7 @@ def logOut() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def close() -> bool:
@@ -135,20 +134,11 @@ def close() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def sendMessage(
-        chat_id: int | str,
-        text: str,
-        parse_mode: str = None,
-        entities: list[MessageEntity] = None,
-        disable_web_page_preview: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendMessage(chat_id: int | str, text: str, parse_mode: str = None, entities: list[MessageEntity] = None, disable_web_page_preview: bool = None, disable_notification: bool = None, protect_content: bool = None,
+                reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send text messages. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -180,15 +170,11 @@ def sendMessage(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def forwardMessage(
-        chat_id: int | str,
-        from_chat_id: int | str,
-        message_id: int,
-        disable_notification: bool = None,
-        protect_content: bool = None) -> Message:
+def forwardMessage(chat_id: int | str, from_chat_id: int | str, message_id: int,
+                   disable_notification: bool = None, protect_content: bool = None) -> Message:
     """Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -209,21 +195,11 @@ def forwardMessage(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def copyMessage(
-        chat_id: int | str,
-        from_chat_id: int | str,
-        message_id: int,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: list[MessageEntity] = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> MessageId:
+def copyMessage(chat_id: int | str, from_chat_id: int | str, message_id: int, caption: str = None, parse_mode: str = None,
+                caption_entities: list[MessageEntity] = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> MessageId:
     """Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -256,20 +232,11 @@ def copyMessage(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return MessageId(result)
 
 
-def sendPhoto(
-        chat_id: int | str,
-        photo: InputFile | str,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: list[MessageEntity] = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendPhoto(chat_id: int | str, photo: InputFile | str, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, disable_notification: bool = None, protect_content: bool = None,
+              reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send photos. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -301,7 +268,7 @@ def sendPhoto(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
 def sendAudio() -> Message:
@@ -318,22 +285,11 @@ def sendAudio() -> Message:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendDocument(
-        chat_id: int | str,
-        document: InputFile | str,
-        thumb: InputFile | str = None,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: list[MessageEntity] = None,
-        disable_content_type_detection: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendDocument(chat_id: int | str, document: InputFile | str, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None,
+                 caption_entities: list[MessageEntity] = None, disable_content_type_detection: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -369,25 +325,11 @@ def sendDocument(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendVideo(
-        chat_id: int | str,
-        video: InputFile | str,
-        duration: int = None,
-        width: int = None,
-        height: int = None,
-        thumb: InputFile | str = None,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: list[MessageEntity] = None,
-        supports_streaming: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendVideo(chat_id: int | str, video: InputFile | str, duration: int = None, width: int = None, height: int = None, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None,
+              caption_entities: list[MessageEntity] = None, supports_streaming: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -429,24 +371,11 @@ def sendVideo(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendAnimation(
-        chat_id: int | str,
-        animation: InputFile | str,
-        duration: int = None,
-        width: int = None,
-        height: int = None,
-        thumb: InputFile | str = None,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: list[MessageEntity] = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendAnimation(chat_id: int | str, animation: InputFile | str, duration: int = None, width: int = None, height: int = None, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None,
+                  caption_entities: list[MessageEntity] = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -486,21 +415,11 @@ def sendAnimation(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendVoice(
-        chat_id: int | str,
-        voice: InputFile | str,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: list[MessageEntity] = None,
-        duration: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendVoice(chat_id: int | str, voice: InputFile | str, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, duration: int = None, disable_notification: bool = None,
+              protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -534,20 +453,11 @@ def sendVoice(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendVideoNote(
-        chat_id: int | str,
-        video_note: InputFile | str,
-        duration: int = None,
-        length: int = None,
-        thumb: InputFile | str = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendVideoNote(chat_id: int | str, video_note: InputFile | str, duration: int = None, length: int = None, thumb: InputFile | str = None, disable_notification: bool = None, protect_content: bool = None,
+                  reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -579,15 +489,11 @@ def sendVideoNote(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendMediaGroup(chat_id: int | str,
-                   media: list[InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo],
-                   disable_notification: bool = None,
-                   protect_content: bool = None,
-                   reply_to_message_id: int = None,
-                   allow_sending_without_reply: bool = None) -> list[Message]:
+def sendMediaGroup(chat_id: int | str, media: list[InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo], disable_notification: bool = None,
+                   protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None) -> list[Message]:
     """Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -611,22 +517,11 @@ def sendMediaGroup(chat_id: int | str,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return list[Message](result)
 
 
-def sendLocation(
-        chat_id: int | str,
-        latitude: float,
-        longitude: float,
-        horizontal_accuracy: float = None,
-        live_period: int = None,
-        heading: int = None,
-        proximity_alert_radius: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendLocation(chat_id: int | str, latitude: float, longitude: float, horizontal_accuracy: float = None, live_period: int = None, heading: int = None, proximity_alert_radius: int = None, disable_notification: bool = None,
+                 protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send point on the map. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -661,19 +556,11 @@ def sendLocation(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def editMessageLiveLocation(
-        latitude: float,
-        longitude: float,
-        chat_id: int | str = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        horizontal_accuracy: float = None,
-        heading: int = None,
-        proximity_alert_radius: int = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageLiveLocation(latitude: float, longitude: float, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None,
+                            horizontal_accuracy: float = None, heading: int = None, proximity_alert_radius: int = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
     """Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     payload = {}
     if chat_id is not None:
@@ -703,14 +590,11 @@ def editMessageLiveLocation(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message | bool(result)
 
 
-def stopMessageLiveLocation(
-        chat_id: int | str = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def stopMessageLiveLocation(chat_id: int | str = None, message_id: int = None,
+                            inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
     """Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned."""
     payload = {}
     if chat_id is not None:
@@ -732,24 +616,11 @@ def stopMessageLiveLocation(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message | bool(result)
 
 
-def sendVenue(
-        chat_id: int | str,
-        latitude: float,
-        longitude: float,
-        title: str,
-        address: str,
-        foursquare_id: str = None,
-        foursquare_type: str = None,
-        google_place_id: str = None,
-        google_place_type: str = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendVenue(chat_id: int | str, latitude: float, longitude: float, title: str, address: str, foursquare_id: str = None, foursquare_type: str = None, google_place_id: str = None, google_place_type: str = None, disable_notification: bool = None,
+              protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send information about a venue. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -786,20 +657,11 @@ def sendVenue(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendContact(
-        chat_id: int | str,
-        phone_number: str,
-        first_name: str,
-        last_name: str = None,
-        vcard: str = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendContact(chat_id: int | str, phone_number: str, first_name: str, last_name: str = None, vcard: str = None, disable_notification: bool = None, protect_content: bool = None,
+                reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send phone contacts. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -830,28 +692,11 @@ def sendContact(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendPoll(
-        chat_id: int | str,
-        question: str,
-        options: list[str],
-        is_anonymous: bool = None,
-        type: str = None,
-        allows_multiple_answers: bool = None,
-        correct_option_id: int = None,
-        explanation: str = None,
-        explanation_parse_mode: str = None,
-        explanation_entities: list[MessageEntity] = None,
-        open_period: int = None,
-        close_date: int = None,
-        is_closed: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendPoll(chat_id: int | str, question: str, options: list[str], is_anonymous: bool = None, type: str = None, allows_multiple_answers: bool = None, correct_option_id: int = None, explanation: str = None, explanation_parse_mode: str = None, explanation_entities: list[MessageEntity] = None, open_period: int = None,
+             close_date: int = None, is_closed: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send a native poll. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -898,17 +743,11 @@ def sendPoll(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def sendDice(
-        chat_id: int | str,
-        emoji: str = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendDice(chat_id: int | str, emoji: str = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None,
+             allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -935,7 +774,7 @@ def sendDice(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
 def sendChatAction() -> bool:
@@ -952,13 +791,11 @@ def sendChatAction() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def getUserProfilePhotos(
-        user_id: int,
-        offset: int = None,
-        limit: int = None) -> UserProfilePhotos:
+def getUserProfilePhotos(user_id: int, offset: int = None,
+                         limit: int = None) -> UserProfilePhotos:
     """Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object."""
     payload = {}
     payload['user_id'] = user_id
@@ -977,7 +814,7 @@ def getUserProfilePhotos(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return UserProfilePhotos(result)
 
 
 def getFile(file_id: str) -> File:
@@ -995,14 +832,11 @@ def getFile(file_id: str) -> File:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return File(result)
 
 
-def banChatMember(
-        chat_id: int | str,
-        user_id: int,
-        until_date: int = None,
-        revoke_messages: bool = None) -> bool:
+def banChatMember(chat_id: int | str, user_id: int,
+                  until_date: int = None, revoke_messages: bool = None) -> bool:
     """Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1022,13 +856,11 @@ def banChatMember(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def unbanChatMember(
-        chat_id: int | str,
-        user_id: int,
-        only_if_banned: bool = None) -> bool:
+def unbanChatMember(chat_id: int | str, user_id: int,
+                    only_if_banned: bool = None) -> bool:
     """Use this method to unban a previously banned user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1046,14 +878,11 @@ def unbanChatMember(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def restrictChatMember(
-        chat_id: int | str,
-        user_id: int,
-        permissions: ChatPermissions,
-        until_date: int = None) -> bool:
+def restrictChatMember(chat_id: int | str, user_id: int,
+                       permissions: ChatPermissions, until_date: int = None) -> bool:
     """Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass True for all permissions to lift restrictions from a user. Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1072,23 +901,11 @@ def restrictChatMember(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def promoteChatMember(
-        chat_id: int | str,
-        user_id: int,
-        is_anonymous: bool = None,
-        can_manage_chat: bool = None,
-        can_post_messages: bool = None,
-        can_edit_messages: bool = None,
-        can_delete_messages: bool = None,
-        can_manage_video_chats: bool = None,
-        can_restrict_members: bool = None,
-        can_promote_members: bool = None,
-        can_change_info: bool = None,
-        can_invite_users: bool = None,
-        can_pin_messages: bool = None) -> bool:
+def promoteChatMember(chat_id: int | str, user_id: int, is_anonymous: bool = None, can_manage_chat: bool = None, can_post_messages: bool = None, can_edit_messages: bool = None, can_delete_messages: bool = None,
+                      can_manage_video_chats: bool = None, can_restrict_members: bool = None, can_promote_members: bool = None, can_change_info: bool = None, can_invite_users: bool = None, can_pin_messages: bool = None) -> bool:
     """Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass False for all boolean parameters to demote a user. Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1126,13 +943,11 @@ def promoteChatMember(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def setChatAdministratorCustomTitle(
-        chat_id: int | str,
-        user_id: int,
-        custom_title: str) -> bool:
+        chat_id: int | str, user_id: int, custom_title: str) -> bool:
     """Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1149,7 +964,7 @@ def setChatAdministratorCustomTitle(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def banChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
@@ -1168,7 +983,7 @@ def banChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def unbanChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
@@ -1187,12 +1002,11 @@ def unbanChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def setChatPermissions(
-        chat_id: int | str,
-        permissions: ChatPermissions) -> bool:
+def setChatPermissions(chat_id: int | str,
+                       permissions: ChatPermissions) -> bool:
     """Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights. Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1208,7 +1022,7 @@ def setChatPermissions(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def exportChatInviteLink(chat_id: int | str) -> str:
@@ -1226,15 +1040,11 @@ def exportChatInviteLink(chat_id: int | str) -> str:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return str(result)
 
 
-def createChatInviteLink(
-        chat_id: int | str,
-        name: str = None,
-        expire_date: int = None,
-        member_limit: int = None,
-        creates_join_request: bool = None) -> ChatInviteLink:
+def createChatInviteLink(chat_id: int | str, name: str = None, expire_date: int = None,
+                         member_limit: int = None, creates_join_request: bool = None) -> ChatInviteLink:
     """Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1257,16 +1067,11 @@ def createChatInviteLink(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return ChatInviteLink(result)
 
 
-def editChatInviteLink(
-        chat_id: int | str,
-        invite_link: str,
-        name: str = None,
-        expire_date: int = None,
-        member_limit: int = None,
-        creates_join_request: bool = None) -> ChatInviteLink:
+def editChatInviteLink(chat_id: int | str, invite_link: str, name: str = None, expire_date: int = None,
+                       member_limit: int = None, creates_join_request: bool = None) -> ChatInviteLink:
     """Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1290,12 +1095,11 @@ def editChatInviteLink(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return ChatInviteLink(result)
 
 
-def revokeChatInviteLink(
-        chat_id: int | str,
-        invite_link: str) -> ChatInviteLink:
+def revokeChatInviteLink(chat_id: int | str,
+                         invite_link: str) -> ChatInviteLink:
     """Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1311,7 +1115,7 @@ def revokeChatInviteLink(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return ChatInviteLink(result)
 
 
 def approveChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
@@ -1330,7 +1134,7 @@ def approveChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def declineChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
@@ -1349,7 +1153,7 @@ def declineChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def setChatPhoto(chat_id: int | str, photo: InputFile) -> bool:
@@ -1368,7 +1172,7 @@ def setChatPhoto(chat_id: int | str, photo: InputFile) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def deleteChatPhoto(chat_id: int | str) -> bool:
@@ -1386,7 +1190,7 @@ def deleteChatPhoto(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def setChatTitle(chat_id: int | str, title: str) -> bool:
@@ -1405,7 +1209,7 @@ def setChatTitle(chat_id: int | str, title: str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def setChatDescription(chat_id: int | str, description: str = None) -> bool:
@@ -1425,13 +1229,11 @@ def setChatDescription(chat_id: int | str, description: str = None) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def pinChatMessage(
-        chat_id: int | str,
-        message_id: int,
-        disable_notification: bool = None) -> bool:
+def pinChatMessage(chat_id: int | str, message_id: int,
+                   disable_notification: bool = None) -> bool:
     """Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -1449,7 +1251,7 @@ def pinChatMessage(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def unpinChatMessage(chat_id: int | str, message_id: int = None) -> bool:
@@ -1469,7 +1271,7 @@ def unpinChatMessage(chat_id: int | str, message_id: int = None) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def unpinAllChatMessages(chat_id: int | str) -> bool:
@@ -1487,7 +1289,7 @@ def unpinAllChatMessages(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def leaveChat(chat_id: int | str) -> bool:
@@ -1505,7 +1307,7 @@ def leaveChat(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def getChat(chat_id: int | str) -> Chat:
@@ -1523,7 +1325,7 @@ def getChat(chat_id: int | str) -> Chat:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Chat(result)
 
 
 def getChatAdministrators(chat_id: int | str) -> list[ChatMember]:
@@ -1541,7 +1343,7 @@ def getChatAdministrators(chat_id: int | str) -> list[ChatMember]:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return list[ChatMember](result)
 
 
 def getChatMemberCount(chat_id: int | str) -> int:
@@ -1559,7 +1361,7 @@ def getChatMemberCount(chat_id: int | str) -> int:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return int(result)
 
 
 def getChatMember(chat_id: int | str, user_id: int) -> ChatMember:
@@ -1578,7 +1380,7 @@ def getChatMember(chat_id: int | str, user_id: int) -> ChatMember:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return ChatMember(result)
 
 
 def setChatStickerSet(chat_id: int | str, sticker_set_name: str) -> bool:
@@ -1597,7 +1399,7 @@ def setChatStickerSet(chat_id: int | str, sticker_set_name: str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def deleteChatStickerSet(chat_id: int | str) -> bool:
@@ -1615,7 +1417,7 @@ def deleteChatStickerSet(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def answerCallbackQuery() -> bool:
@@ -1632,13 +1434,11 @@ def answerCallbackQuery() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def setMyCommands(
-        commands: list[BotCommand],
-        scope: BotCommandScope = None,
-        language_code: str = None) -> bool:
+def setMyCommands(commands: list[BotCommand],
+                  scope: BotCommandScope = None, language_code: str = None) -> bool:
     """Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success."""
     payload = {}
     payload['commands'] = commands
@@ -1657,12 +1457,11 @@ def setMyCommands(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def deleteMyCommands(
-        scope: BotCommandScope = None,
-        language_code: str = None) -> bool:
+def deleteMyCommands(scope: BotCommandScope = None,
+                     language_code: str = None) -> bool:
     """Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success."""
     payload = {}
     if scope is not None:
@@ -1680,7 +1479,7 @@ def deleteMyCommands(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def getMyCommands(scope: BotCommandScope = None,
@@ -1702,12 +1501,11 @@ def getMyCommands(scope: BotCommandScope = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return list[BotCommand](result)
 
 
-def setChatMenuButton(
-        chat_id: int = None,
-        menu_button: MenuButton = None) -> bool:
+def setChatMenuButton(chat_id: int = None,
+                      menu_button: MenuButton = None) -> bool:
     """Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success."""
     payload = {}
     if chat_id is not None:
@@ -1725,7 +1523,7 @@ def setChatMenuButton(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def getChatMenuButton(chat_id: int = None) -> MenuButton:
@@ -1744,12 +1542,11 @@ def getChatMenuButton(chat_id: int = None) -> MenuButton:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return MenuButton(result)
 
 
 def setMyDefaultAdministratorRights(
-        rights: ChatAdministratorRights = None,
-        for_channels: bool = None) -> bool:
+        rights: ChatAdministratorRights = None, for_channels: bool = None) -> bool:
     """Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot. Returns True on success."""
     payload = {}
     if rights is not None:
@@ -1767,7 +1564,7 @@ def setMyDefaultAdministratorRights(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def getMyDefaultAdministratorRights(
@@ -1787,18 +1584,11 @@ def getMyDefaultAdministratorRights(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return ChatAdministratorRights(result)
 
 
-def editMessageText(
-        text: str,
-        chat_id: int | str = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        parse_mode: str = None,
-        entities: list[MessageEntity] = None,
-        disable_web_page_preview: bool = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageText(text: str, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, parse_mode: str = None,
+                    entities: list[MessageEntity] = None, disable_web_page_preview: bool = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
     """Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     payload = {}
     if chat_id is not None:
@@ -1827,17 +1617,11 @@ def editMessageText(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message | bool(result)
 
 
-def editMessageCaption(
-        chat_id: int | str = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: list[MessageEntity] = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageCaption(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, caption: str = None,
+                       parse_mode: str = None, caption_entities: list[MessageEntity] = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
     """Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     payload = {}
     if chat_id is not None:
@@ -1865,15 +1649,11 @@ def editMessageCaption(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message | bool(result)
 
 
-def editMessageMedia(
-        media: InputMedia,
-        chat_id: int | str = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageMedia(media: InputMedia, chat_id: int | str = None, message_id: int = None,
+                     inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
     """Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     payload = {}
     if chat_id is not None:
@@ -1896,14 +1676,11 @@ def editMessageMedia(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message | bool(result)
 
 
-def editMessageReplyMarkup(
-        chat_id: int | str = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageReplyMarkup(chat_id: int | str = None, message_id: int = None,
+                           inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
     """Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     payload = {}
     if chat_id is not None:
@@ -1925,7 +1702,7 @@ def editMessageReplyMarkup(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message | bool(result)
 
 
 def stopPoll(chat_id: int | str, message_id: int,
@@ -1947,19 +1724,11 @@ def stopPoll(chat_id: int | str, message_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Poll(result)
 
 
 def deleteMessage(chat_id: int | str, message_id: int) -> bool:
-    """Use this method to delete a message, including service messages, with the following limitations:
-          - A message can only be deleted if it was sent less than 48 hours ago.
-          - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
-          - Bots can delete outgoing messages in private chats, groups, and supergroups.
-          - Bots can delete incoming messages in private chats.
-          - Bots granted can_post_messages permissions can delete outgoing messages in channels.
-          - If the bot is an administrator of a group, it can delete any message there.
-          - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
-          Returns True on success."""
+    """Use this method to delete a message, including service messages, with the following limitations:- A message can only be deleted if it was sent less than 48 hours ago.- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.- Bots can delete outgoing messages in private chats, groups, and supergroups.- Bots can delete incoming messages in private chats.- Bots granted can_post_messages permissions can delete outgoing messages in channels.- If the bot is an administrator of a group, it can delete any message there.- If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.Returns True on success."""
     payload = {}
     payload['chat_id'] = chat_id
     payload['message_id'] = message_id
@@ -1974,17 +1743,11 @@ def deleteMessage(chat_id: int | str, message_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def sendSticker(
-        chat_id: int | str,
-        sticker: InputFile | str,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
+def sendSticker(chat_id: int | str, sticker: InputFile | str, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None,
+                allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
     """Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -2010,7 +1773,7 @@ def sendSticker(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
 def getStickerSet(name: str) -> StickerSet:
@@ -2028,7 +1791,7 @@ def getStickerSet(name: str) -> StickerSet:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return StickerSet(result)
 
 
 def uploadStickerFile(user_id: int, png_sticker: InputFile) -> File:
@@ -2047,19 +1810,11 @@ def uploadStickerFile(user_id: int, png_sticker: InputFile) -> File:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return File(result)
 
 
-def createNewStickerSet(
-        user_id: int,
-        name: str,
-        title: str,
-        emojis: str,
-        png_sticker: InputFile | str = None,
-        tgs_sticker: InputFile = None,
-        webm_sticker: InputFile = None,
-        contains_masks: bool = None,
-        mask_position: MaskPosition = None) -> bool:
+def createNewStickerSet(user_id: int, name: str, title: str, emojis: str, png_sticker: InputFile | str = None, tgs_sticker: InputFile = None,
+                        webm_sticker: InputFile = None, contains_masks: bool = None, mask_position: MaskPosition = None) -> bool:
     """Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success."""
     payload = {}
     payload['user_id'] = user_id
@@ -2087,17 +1842,11 @@ def createNewStickerSet(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def addStickerToSet(
-        user_id: int,
-        name: str,
-        emojis: str,
-        png_sticker: InputFile | str = None,
-        tgs_sticker: InputFile = None,
-        webm_sticker: InputFile = None,
-        mask_position: MaskPosition = None) -> bool:
+def addStickerToSet(user_id: int, name: str, emojis: str, png_sticker: InputFile | str = None,
+                    tgs_sticker: InputFile = None, webm_sticker: InputFile = None, mask_position: MaskPosition = None) -> bool:
     """Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success."""
     payload = {}
     payload['user_id'] = user_id
@@ -2122,7 +1871,7 @@ def addStickerToSet(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def setStickerPositionInSet(sticker: str, position: int) -> bool:
@@ -2141,7 +1890,7 @@ def setStickerPositionInSet(sticker: str, position: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def deleteStickerFromSet(sticker: str) -> bool:
@@ -2159,13 +1908,11 @@ def deleteStickerFromSet(sticker: str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def setStickerSetThumb(
-        name: str,
-        user_id: int,
-        thumb: InputFile | str = None) -> bool:
+def setStickerSetThumb(name: str, user_id: int,
+                       thumb: InputFile | str = None) -> bool:
     """Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Video thumbnails can be set only for video sticker sets only. Returns True on success."""
     payload = {}
     payload['name'] = name
@@ -2183,19 +1930,12 @@ def setStickerSetThumb(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def answerInlineQuery(
-        inline_query_id: str,
-        results: list[InlineQueryResult],
-        cache_time: int = None,
-        is_personal: bool = None,
-        next_offset: str = None,
-        switch_pm_text: str = None,
-        switch_pm_parameter: str = None) -> bool:
-    """Use this method to send answers to an inline query. On success, True is returned.
-          No more than 50 results per query are allowed."""
+def answerInlineQuery(inline_query_id: str, results: list[InlineQueryResult], cache_time: int = None, is_personal: bool = None,
+                      next_offset: str = None, switch_pm_text: str = None, switch_pm_parameter: str = None) -> bool:
+    """Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed."""
     payload = {}
     payload['inline_query_id'] = inline_query_id
     payload['results'] = results
@@ -2220,12 +1960,11 @@ def answerInlineQuery(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def answerWebAppQuery(
-        web_app_query_id: str,
-        result: InlineQueryResult) -> SentWebAppMessage:
+def answerWebAppQuery(web_app_query_id: str,
+                      result: InlineQueryResult) -> SentWebAppMessage:
     """Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned."""
     payload = {}
     payload['web_app_query_id'] = web_app_query_id
@@ -2241,37 +1980,11 @@ def answerWebAppQuery(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return SentWebAppMessage(result)
 
 
-def sendInvoice(
-        chat_id: int | str,
-        title: str,
-        description: str,
-        payload: str,
-        provider_token: str,
-        currency: str,
-        prices: list[LabeledPrice],
-        max_tip_amount: int = None,
-        suggested_tip_amounts: list[int] = None,
-        start_parameter: str = None,
-        provider_data: str = None,
-        photo_url: str = None,
-        photo_size: int = None,
-        photo_width: int = None,
-        photo_height: int = None,
-        need_name: bool = None,
-        need_phone_number: bool = None,
-        need_email: bool = None,
-        need_shipping_address: bool = None,
-        send_phone_number_to_provider: bool = None,
-        send_email_to_provider: bool = None,
-        is_flexible: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message:
+def sendInvoice(chat_id: int | str, title: str, description: str, payload: str, provider_token: str, currency: str, prices: list[LabeledPrice], max_tip_amount: int = None, suggested_tip_amounts: list[int] = None, start_parameter: str = None, provider_data: str = None, photo_url: str = None, photo_size: int = None, photo_width: int = None, photo_height: int = None, need_name: bool = None,
+                need_phone_number: bool = None, need_email: bool = None, need_shipping_address: bool = None, send_phone_number_to_provider: bool = None, send_email_to_provider: bool = None, is_flexible: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to send invoices. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -2332,14 +2045,11 @@ def sendInvoice(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def answerShippingQuery(
-        shipping_query_id: str,
-        ok: bool,
-        shipping_options: list[ShippingOption] = None,
-        error_message: str = None) -> bool:
+def answerShippingQuery(shipping_query_id: str, ok: bool,
+                        shipping_options: list[ShippingOption] = None, error_message: str = None) -> bool:
     """If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned."""
     payload = {}
     payload['shipping_query_id'] = shipping_query_id
@@ -2359,13 +2069,11 @@ def answerShippingQuery(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def answerPreCheckoutQuery(
-        pre_checkout_query_id: str,
-        ok: bool,
-        error_message: str = None) -> bool:
+def answerPreCheckoutQuery(pre_checkout_query_id: str,
+                           ok: bool, error_message: str = None) -> bool:
     """Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent."""
     payload = {}
     payload['pre_checkout_query_id'] = pre_checkout_query_id
@@ -2383,7 +2091,7 @@ def answerPreCheckoutQuery(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
 def setPassportDataErrors() -> bool:
@@ -2400,17 +2108,11 @@ def setPassportDataErrors() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return bool(result)
 
 
-def sendGame(
-        chat_id: int,
-        game_short_name: str,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        reply_to_message_id: int = None,
-        allow_sending_without_reply: bool = None,
-        reply_markup: InlineKeyboardMarkup = None) -> Message:
+def sendGame(chat_id: int, game_short_name: str, disable_notification: bool = None, protect_content: bool = None,
+             reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to send a game. On success, the sent Message is returned."""
     payload = {}
     payload['chat_id'] = chat_id
@@ -2436,17 +2138,11 @@ def sendGame(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message(result)
 
 
-def setGameScore(
-        user_id: int,
-        score: int,
-        force: bool = None,
-        disable_edit_message: bool = None,
-        chat_id: int = None,
-        message_id: int = None,
-        inline_message_id: str = None) -> Message | bool:
+def setGameScore(user_id: int, score: int, force: bool = None, disable_edit_message: bool = None,
+                 chat_id: int = None, message_id: int = None, inline_message_id: str = None) -> Message | bool:
     """Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False."""
     payload = {}
     payload['user_id'] = user_id
@@ -2472,7 +2168,7 @@ def setGameScore(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return Message | bool(result)
 
 
 def getGameHighScores() -> list[GameHighScore]:
@@ -2489,4 +2185,4 @@ def getGameHighScores() -> list[GameHighScore]:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return result
+    return list[GameHighScore](result)

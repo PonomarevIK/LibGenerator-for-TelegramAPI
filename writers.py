@@ -42,7 +42,7 @@ class PythonObjectWriter(BaseObject):
         "Int": "int",
         "Float": "float",
         "String": "str"}
-    header = ""
+    header = "# This code in it's entirety was generated and formated automatically\n\n"
 
     with open("Templates\\Python\\type_template.txt", "r", encoding="unicode_escape") as template_file:
         template = template_file.read()
@@ -65,20 +65,20 @@ class PythonObjectWriter(BaseObject):
     def write_to_file(self):
         if PythonObjectWriter.file_empty:
             with open("Generated code\\Python\\types.py", "w", encoding="utf-8") as output_file:
-                output_file.write(PythonMethodWriter.header)
+                output_file.write(self.header)
             PythonObjectWriter.file_empty = False
         with open("Generated code\\Python\\types.py", "a", encoding="utf-8") as output_file:
-            output_file.write(self.template.format(name=self.name, description=self.description))
+            output_file.write(PythonObjectWriter.template.format(name=self.name, description=self.description))
             output_file.write("\n\n")
 
 
 class PythonMethodWriter(PythonObjectWriter, BaseMethod):
     file_empty = True
-    header = ("import requests\n"
-              "from types import *\n\n"
-              f"API_URL = '{API_URL}'\n"
-              "token = 'your_bot_token_here'\n"
-              "\n\n")
+    header = PythonObjectWriter.header + ("import requests\n"
+                                          "from types import *\n\n"
+                                          f"API_URL = '{API_URL}'\n"
+                                          "token = 'your_bot_token_here'\n"
+                                          "\n\n")
 
     with open("Templates\\Python\\method_template.txt", "r", encoding="unicode_escape") as template_file:
         template = template_file.read()
@@ -102,8 +102,12 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
     def write_to_file(self):
         if PythonMethodWriter.file_empty:
             with open("Generated code\\Python\\methods.py", "w", encoding="utf-8") as output_file:
-                output_file.write(PythonMethodWriter.header)
+                output_file.write(self.header)
             PythonMethodWriter.file_empty = False
         with open("Generated code\\Python\\methods.py", "a", encoding="utf-8") as output_file:
-            output_file.write(self.template.format(name=self.name, params=", ".join(self.get_argument_list()), return_type=self.return_type, description=self.description,payload=self.payload))
+            output_file.write(PythonMethodWriter.template.format(name=self.name,
+                                                                 params=", ".join(self.get_argument_list()),
+                                                                 return_type=self.return_type,
+                                                                 description=self.description,
+                                                                 payload=self.payload))
             output_file.write("\n\n")

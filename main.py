@@ -1,29 +1,19 @@
 import bs4
+import requests
 import os
+
 import writers
 
+
 DOCS_LOCATION = "https://core.telegram.org/bots/api"
-# DOCS_LOCATION = "Telegram Bot API.html"
 
 
-@property
-def next_sibling_tag(self):
-    tag = self
+def next_sibling_tag(tag):
     while tag is not None:
         tag = tag.next_sibling
         if type(tag) == bs4.element.Tag:
             return tag
     return None
-bs4.element.PageElement.next_sibling_tag = next_sibling_tag
-
-
-def get_html_tree(source: str, strainer: bs4.SoupStrainer = None, parser="html.parser") -> bs4.BeautifulSoup:
-    """Creates a BeautifulSoup object from given HTML file or URL"""
-    if source.startswith(("http://", "https://")):
-        import requests
-        return bs4.BeautifulSoup(requests.get(source).text, parser, parse_only=strainer)
-    with open(source) as html_file:
-        return bs4.BeautifulSoup(html_file, parser, parse_only=strainer)
 
 
 def parse_table(table: bs4.element.Tag):
@@ -49,15 +39,15 @@ def parse_table(table: bs4.element.Tag):
 
 
 def main(language):
-    soup = get_html_tree(DOCS_LOCATION, bs4.SoupStrainer("div", id="dev_page_content"))
+    soup = bs4.BeautifulSoup(requests.get(DOCS_LOCATION).text, "html.parser", parse_only=bs4.SoupStrainer("div", id="dev_page_content"))
 
     for h4 in soup.find_all("h4"):
         name = h4.text
 
-        paragraph = h4.next_sibling_tag
+        paragraph = next_sibling_tag(h4)
         description = paragraph.text if paragraph.name == "p" else ""
 
-        table = paragraph.next_sibling_tag
+        table = next_sibling_tag(paragraph)
         parameters = parse_table(table) if table.name == "table" else []
 
         if name[0].islower():
@@ -69,7 +59,7 @@ def main(language):
             tg_object = writers.PythonObjectWriter(name, description, parameters)
             tg_object.write_to_file()
 
-    # os.system('autopep8 --in-place --aggressive "Generated code/Python/methods.py"')
+    os.system('autopep8 --in-place --aggressive "Generated code/Python/methods.py"')
     # os.system('autopep8 --in-place --aggressive "Generated code/Python/types.py"')
 
 
