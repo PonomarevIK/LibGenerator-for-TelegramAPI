@@ -6,4 +6,4 @@ def {name}({params}) -> {return_type}:
 \tresult = requests.get(API_URL.format(token=token, method={name}), params=payload).json()
 \tif not result['ok']:
 \t\traise Exception('Error {{errno}}: {{error}}'.format(errno = result['error_code'], error = result['description']))
-\treturn {return_type}(result)
+\treturn result

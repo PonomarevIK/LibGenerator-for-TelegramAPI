@@ -1,4 +1,4 @@
-# This code in it's entirety was automatically generated and formated
+# This code in it's entirety was generated and formated automatically
 
 import requests
 from types import *
@@ -30,7 +30,7 @@ def getUpdates(offset: int = None, limit: int = None, timeout: int = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return list[Update](result)
+    return result
 
 
 def setWebhook() -> bool:
@@ -47,7 +47,7 @@ def setWebhook() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def deleteWebhook(drop_pending_updates: bool = None) -> bool:
@@ -66,7 +66,7 @@ def deleteWebhook(drop_pending_updates: bool = None) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def getWebhookInfo() -> WebhookInfo:
@@ -83,7 +83,7 @@ def getWebhookInfo() -> WebhookInfo:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return WebhookInfo(result)
+    return result
 
 
 def getMe() -> User:
@@ -100,7 +100,7 @@ def getMe() -> User:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return User(result)
+    return result
 
 
 def logOut() -> bool:
@@ -117,7 +117,7 @@ def logOut() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def close() -> bool:
@@ -134,7 +134,7 @@ def close() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def sendMessage(chat_id: int | str, text: str, parse_mode: str = None, entities: list[MessageEntity] = None, disable_web_page_preview: bool = None, disable_notification: bool = None, protect_content: bool = None,
@@ -170,7 +170,7 @@ def sendMessage(chat_id: int | str, text: str, parse_mode: str = None, entities:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def forwardMessage(chat_id: int | str, from_chat_id: int | str, message_id: int,
@@ -195,7 +195,7 @@ def forwardMessage(chat_id: int | str, from_chat_id: int | str, message_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def copyMessage(chat_id: int | str, from_chat_id: int | str, message_id: int, caption: str = None, parse_mode: str = None,
@@ -232,7 +232,7 @@ def copyMessage(chat_id: int | str, from_chat_id: int | str, message_id: int, ca
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return MessageId(result)
+    return result
 
 
 def sendPhoto(chat_id: int | str, photo: InputFile | str, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, disable_notification: bool = None, protect_content: bool = None,
@@ -268,7 +268,7 @@ def sendPhoto(chat_id: int | str, photo: InputFile | str, caption: str = None, p
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendAudio() -> Message:
@@ -285,7 +285,7 @@ def sendAudio() -> Message:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendDocument(chat_id: int | str, document: InputFile | str, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None,
@@ -325,7 +325,7 @@ def sendDocument(chat_id: int | str, document: InputFile | str, thumb: InputFile
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendVideo(chat_id: int | str, video: InputFile | str, duration: int = None, width: int = None, height: int = None, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None,
@@ -371,7 +371,7 @@ def sendVideo(chat_id: int | str, video: InputFile | str, duration: int = None, 
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendAnimation(chat_id: int | str, animation: InputFile | str, duration: int = None, width: int = None, height: int = None, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None,
@@ -415,7 +415,7 @@ def sendAnimation(chat_id: int | str, animation: InputFile | str, duration: int 
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendVoice(chat_id: int | str, voice: InputFile | str, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, duration: int = None, disable_notification: bool = None,
@@ -453,7 +453,7 @@ def sendVoice(chat_id: int | str, voice: InputFile | str, caption: str = None, p
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendVideoNote(chat_id: int | str, video_note: InputFile | str, duration: int = None, length: int = None, thumb: InputFile | str = None, disable_notification: bool = None, protect_content: bool = None,
@@ -489,7 +489,7 @@ def sendVideoNote(chat_id: int | str, video_note: InputFile | str, duration: int
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendMediaGroup(chat_id: int | str, media: list[InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo], disable_notification: bool = None,
@@ -517,7 +517,7 @@ def sendMediaGroup(chat_id: int | str, media: list[InputMediaAudio | InputMediaD
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return list[Message](result)
+    return result
 
 
 def sendLocation(chat_id: int | str, latitude: float, longitude: float, horizontal_accuracy: float = None, live_period: int = None, heading: int = None, proximity_alert_radius: int = None, disable_notification: bool = None,
@@ -556,7 +556,7 @@ def sendLocation(chat_id: int | str, latitude: float, longitude: float, horizont
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def editMessageLiveLocation(latitude: float, longitude: float, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None,
@@ -590,7 +590,7 @@ def editMessageLiveLocation(latitude: float, longitude: float, chat_id: int | st
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message | bool(result)
+    return result
 
 
 def stopMessageLiveLocation(chat_id: int | str = None, message_id: int = None,
@@ -616,7 +616,7 @@ def stopMessageLiveLocation(chat_id: int | str = None, message_id: int = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message | bool(result)
+    return result
 
 
 def sendVenue(chat_id: int | str, latitude: float, longitude: float, title: str, address: str, foursquare_id: str = None, foursquare_type: str = None, google_place_id: str = None, google_place_type: str = None, disable_notification: bool = None,
@@ -657,7 +657,7 @@ def sendVenue(chat_id: int | str, latitude: float, longitude: float, title: str,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendContact(chat_id: int | str, phone_number: str, first_name: str, last_name: str = None, vcard: str = None, disable_notification: bool = None, protect_content: bool = None,
@@ -692,7 +692,7 @@ def sendContact(chat_id: int | str, phone_number: str, first_name: str, last_nam
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendPoll(chat_id: int | str, question: str, options: list[str], is_anonymous: bool = None, type: str = None, allows_multiple_answers: bool = None, correct_option_id: int = None, explanation: str = None, explanation_parse_mode: str = None, explanation_entities: list[MessageEntity] = None, open_period: int = None,
@@ -743,7 +743,7 @@ def sendPoll(chat_id: int | str, question: str, options: list[str], is_anonymous
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendDice(chat_id: int | str, emoji: str = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None,
@@ -774,7 +774,7 @@ def sendDice(chat_id: int | str, emoji: str = None, disable_notification: bool =
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def sendChatAction() -> bool:
@@ -791,7 +791,7 @@ def sendChatAction() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def getUserProfilePhotos(user_id: int, offset: int = None,
@@ -814,7 +814,7 @@ def getUserProfilePhotos(user_id: int, offset: int = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return UserProfilePhotos(result)
+    return result
 
 
 def getFile(file_id: str) -> File:
@@ -832,7 +832,7 @@ def getFile(file_id: str) -> File:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return File(result)
+    return result
 
 
 def banChatMember(chat_id: int | str, user_id: int,
@@ -856,7 +856,7 @@ def banChatMember(chat_id: int | str, user_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def unbanChatMember(chat_id: int | str, user_id: int,
@@ -878,7 +878,7 @@ def unbanChatMember(chat_id: int | str, user_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def restrictChatMember(chat_id: int | str, user_id: int,
@@ -901,7 +901,7 @@ def restrictChatMember(chat_id: int | str, user_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def promoteChatMember(chat_id: int | str, user_id: int, is_anonymous: bool = None, can_manage_chat: bool = None, can_post_messages: bool = None, can_edit_messages: bool = None, can_delete_messages: bool = None,
@@ -943,7 +943,7 @@ def promoteChatMember(chat_id: int | str, user_id: int, is_anonymous: bool = Non
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setChatAdministratorCustomTitle(
@@ -964,7 +964,7 @@ def setChatAdministratorCustomTitle(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def banChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
@@ -983,7 +983,7 @@ def banChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def unbanChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
@@ -1002,7 +1002,7 @@ def unbanChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setChatPermissions(chat_id: int | str,
@@ -1022,7 +1022,7 @@ def setChatPermissions(chat_id: int | str,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def exportChatInviteLink(chat_id: int | str) -> str:
@@ -1040,7 +1040,7 @@ def exportChatInviteLink(chat_id: int | str) -> str:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return str(result)
+    return result
 
 
 def createChatInviteLink(chat_id: int | str, name: str = None, expire_date: int = None,
@@ -1067,7 +1067,7 @@ def createChatInviteLink(chat_id: int | str, name: str = None, expire_date: int 
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return ChatInviteLink(result)
+    return result
 
 
 def editChatInviteLink(chat_id: int | str, invite_link: str, name: str = None, expire_date: int = None,
@@ -1095,7 +1095,7 @@ def editChatInviteLink(chat_id: int | str, invite_link: str, name: str = None, e
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return ChatInviteLink(result)
+    return result
 
 
 def revokeChatInviteLink(chat_id: int | str,
@@ -1115,7 +1115,7 @@ def revokeChatInviteLink(chat_id: int | str,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return ChatInviteLink(result)
+    return result
 
 
 def approveChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
@@ -1134,7 +1134,7 @@ def approveChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def declineChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
@@ -1153,7 +1153,7 @@ def declineChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setChatPhoto(chat_id: int | str, photo: InputFile) -> bool:
@@ -1172,7 +1172,7 @@ def setChatPhoto(chat_id: int | str, photo: InputFile) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def deleteChatPhoto(chat_id: int | str) -> bool:
@@ -1190,7 +1190,7 @@ def deleteChatPhoto(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setChatTitle(chat_id: int | str, title: str) -> bool:
@@ -1209,7 +1209,7 @@ def setChatTitle(chat_id: int | str, title: str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setChatDescription(chat_id: int | str, description: str = None) -> bool:
@@ -1229,7 +1229,7 @@ def setChatDescription(chat_id: int | str, description: str = None) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def pinChatMessage(chat_id: int | str, message_id: int,
@@ -1251,7 +1251,7 @@ def pinChatMessage(chat_id: int | str, message_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def unpinChatMessage(chat_id: int | str, message_id: int = None) -> bool:
@@ -1271,7 +1271,7 @@ def unpinChatMessage(chat_id: int | str, message_id: int = None) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def unpinAllChatMessages(chat_id: int | str) -> bool:
@@ -1289,7 +1289,7 @@ def unpinAllChatMessages(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def leaveChat(chat_id: int | str) -> bool:
@@ -1307,7 +1307,7 @@ def leaveChat(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def getChat(chat_id: int | str) -> Chat:
@@ -1325,7 +1325,7 @@ def getChat(chat_id: int | str) -> Chat:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Chat(result)
+    return result
 
 
 def getChatAdministrators(chat_id: int | str) -> list[ChatMember]:
@@ -1343,7 +1343,7 @@ def getChatAdministrators(chat_id: int | str) -> list[ChatMember]:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return list[ChatMember](result)
+    return result
 
 
 def getChatMemberCount(chat_id: int | str) -> int:
@@ -1361,7 +1361,7 @@ def getChatMemberCount(chat_id: int | str) -> int:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return int(result)
+    return result
 
 
 def getChatMember(chat_id: int | str, user_id: int) -> ChatMember:
@@ -1380,7 +1380,7 @@ def getChatMember(chat_id: int | str, user_id: int) -> ChatMember:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return ChatMember(result)
+    return result
 
 
 def setChatStickerSet(chat_id: int | str, sticker_set_name: str) -> bool:
@@ -1399,7 +1399,7 @@ def setChatStickerSet(chat_id: int | str, sticker_set_name: str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def deleteChatStickerSet(chat_id: int | str) -> bool:
@@ -1417,7 +1417,7 @@ def deleteChatStickerSet(chat_id: int | str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def answerCallbackQuery() -> bool:
@@ -1434,7 +1434,7 @@ def answerCallbackQuery() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setMyCommands(commands: list[BotCommand],
@@ -1457,7 +1457,7 @@ def setMyCommands(commands: list[BotCommand],
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def deleteMyCommands(scope: BotCommandScope = None,
@@ -1479,7 +1479,7 @@ def deleteMyCommands(scope: BotCommandScope = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def getMyCommands(scope: BotCommandScope = None,
@@ -1501,7 +1501,7 @@ def getMyCommands(scope: BotCommandScope = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return list[BotCommand](result)
+    return result
 
 
 def setChatMenuButton(chat_id: int = None,
@@ -1523,7 +1523,7 @@ def setChatMenuButton(chat_id: int = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def getChatMenuButton(chat_id: int = None) -> MenuButton:
@@ -1542,7 +1542,7 @@ def getChatMenuButton(chat_id: int = None) -> MenuButton:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return MenuButton(result)
+    return result
 
 
 def setMyDefaultAdministratorRights(
@@ -1564,7 +1564,7 @@ def setMyDefaultAdministratorRights(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def getMyDefaultAdministratorRights(
@@ -1584,7 +1584,7 @@ def getMyDefaultAdministratorRights(
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return ChatAdministratorRights(result)
+    return result
 
 
 def editMessageText(text: str, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, parse_mode: str = None,
@@ -1617,7 +1617,7 @@ def editMessageText(text: str, chat_id: int | str = None, message_id: int = None
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message | bool(result)
+    return result
 
 
 def editMessageCaption(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, caption: str = None,
@@ -1649,7 +1649,7 @@ def editMessageCaption(chat_id: int | str = None, message_id: int = None, inline
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message | bool(result)
+    return result
 
 
 def editMessageMedia(media: InputMedia, chat_id: int | str = None, message_id: int = None,
@@ -1676,7 +1676,7 @@ def editMessageMedia(media: InputMedia, chat_id: int | str = None, message_id: i
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message | bool(result)
+    return result
 
 
 def editMessageReplyMarkup(chat_id: int | str = None, message_id: int = None,
@@ -1702,7 +1702,7 @@ def editMessageReplyMarkup(chat_id: int | str = None, message_id: int = None,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message | bool(result)
+    return result
 
 
 def stopPoll(chat_id: int | str, message_id: int,
@@ -1724,7 +1724,7 @@ def stopPoll(chat_id: int | str, message_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Poll(result)
+    return result
 
 
 def deleteMessage(chat_id: int | str, message_id: int) -> bool:
@@ -1743,7 +1743,7 @@ def deleteMessage(chat_id: int | str, message_id: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def sendSticker(chat_id: int | str, sticker: InputFile | str, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None,
@@ -1773,7 +1773,7 @@ def sendSticker(chat_id: int | str, sticker: InputFile | str, disable_notificati
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def getStickerSet(name: str) -> StickerSet:
@@ -1791,7 +1791,7 @@ def getStickerSet(name: str) -> StickerSet:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return StickerSet(result)
+    return result
 
 
 def uploadStickerFile(user_id: int, png_sticker: InputFile) -> File:
@@ -1810,7 +1810,7 @@ def uploadStickerFile(user_id: int, png_sticker: InputFile) -> File:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return File(result)
+    return result
 
 
 def createNewStickerSet(user_id: int, name: str, title: str, emojis: str, png_sticker: InputFile | str = None, tgs_sticker: InputFile = None,
@@ -1842,7 +1842,7 @@ def createNewStickerSet(user_id: int, name: str, title: str, emojis: str, png_st
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def addStickerToSet(user_id: int, name: str, emojis: str, png_sticker: InputFile | str = None,
@@ -1871,7 +1871,7 @@ def addStickerToSet(user_id: int, name: str, emojis: str, png_sticker: InputFile
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setStickerPositionInSet(sticker: str, position: int) -> bool:
@@ -1890,7 +1890,7 @@ def setStickerPositionInSet(sticker: str, position: int) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def deleteStickerFromSet(sticker: str) -> bool:
@@ -1908,7 +1908,7 @@ def deleteStickerFromSet(sticker: str) -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setStickerSetThumb(name: str, user_id: int,
@@ -1930,7 +1930,7 @@ def setStickerSetThumb(name: str, user_id: int,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def answerInlineQuery(inline_query_id: str, results: list[InlineQueryResult], cache_time: int = None, is_personal: bool = None,
@@ -1960,7 +1960,7 @@ def answerInlineQuery(inline_query_id: str, results: list[InlineQueryResult], ca
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def answerWebAppQuery(web_app_query_id: str,
@@ -1980,7 +1980,7 @@ def answerWebAppQuery(web_app_query_id: str,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return SentWebAppMessage(result)
+    return result
 
 
 def sendInvoice(chat_id: int | str, title: str, description: str, payload: str, provider_token: str, currency: str, prices: list[LabeledPrice], max_tip_amount: int = None, suggested_tip_amounts: list[int] = None, start_parameter: str = None, provider_data: str = None, photo_url: str = None, photo_size: int = None, photo_width: int = None, photo_height: int = None, need_name: bool = None,
@@ -2045,7 +2045,7 @@ def sendInvoice(chat_id: int | str, title: str, description: str, payload: str, 
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def answerShippingQuery(shipping_query_id: str, ok: bool,
@@ -2069,7 +2069,7 @@ def answerShippingQuery(shipping_query_id: str, ok: bool,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def answerPreCheckoutQuery(pre_checkout_query_id: str,
@@ -2091,7 +2091,7 @@ def answerPreCheckoutQuery(pre_checkout_query_id: str,
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def setPassportDataErrors() -> bool:
@@ -2108,7 +2108,7 @@ def setPassportDataErrors() -> bool:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return bool(result)
+    return result
 
 
 def sendGame(chat_id: int, game_short_name: str, disable_notification: bool = None, protect_content: bool = None,
@@ -2138,7 +2138,7 @@ def sendGame(chat_id: int, game_short_name: str, disable_notification: bool = No
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message(result)
+    return result
 
 
 def setGameScore(user_id: int, score: int, force: bool = None, disable_edit_message: bool = None,
@@ -2168,7 +2168,7 @@ def setGameScore(user_id: int, score: int, force: bool = None, disable_edit_mess
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return Message | bool(result)
+    return result
 
 
 def getGameHighScores() -> list[GameHighScore]:
@@ -2185,4 +2185,4 @@ def getGameHighScores() -> list[GameHighScore]:
             'Error {errno}: {error}'.format(
                 errno=result['error_code'],
                 error=result['description']))
-    return list[GameHighScore](result)
+    return result

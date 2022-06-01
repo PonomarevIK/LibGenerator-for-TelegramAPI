@@ -2,9 +2,6 @@ import bs4
 import requests
 import os
 
-import writers
-
-
 DOCS_LOCATION = "https://core.telegram.org/bots/api"
 
 
@@ -17,7 +14,7 @@ def next_sibling_tag(tag):
 
 
 def parse_table(table: bs4.element.Tag):
-    """Parses an HTML <table> and returns a list of data from each row of the table's body"""
+    """Parses an HTML <table> and returns a list of data from each row"""
     if not isinstance(table, bs4.element.Tag) or table.name != "table":
         raise ValueError("'table' argument must be a BeautifulSoup <table>")
 
@@ -39,10 +36,27 @@ def parse_table(table: bs4.element.Tag):
 
 
 def main(language):
-    soup = bs4.BeautifulSoup(requests.get(DOCS_LOCATION).text, "html.parser", parse_only=bs4.SoupStrainer("div", id="dev_page_content"))
+    soup = bs4.BeautifulSoup(requests.get(DOCS_LOCATION).text, "html.parser",
+                             parse_only=bs4.SoupStrainer("div", id="dev_page_content"))
+
+    if language == "Python":
+        import python_code_generator
+        method_writer = python_code_generator.PythonMethodWriter
+        object_writer = python_code_generator.PythonObjectWriter
+    else:
+        raise NotImplementedError(f"{language} is not implemented yet")
+
+    method_output_file = f"Generated code/{language}/methods.py"
+    object_output_file = f"Generated code/{language}/types.py"
+
+    method_writer.write_file_header(method_output_file)
+    object_writer.write_file_header(object_output_file)
 
     for h4 in soup.find_all("h4"):
         name = h4.text
+
+        if " " in name:
+            continue  # headers that contain spaces are skipped, they are neither methods nor objects
 
         paragraph = next_sibling_tag(h4)
         description = paragraph.text if paragraph.name == "p" else ""
@@ -51,16 +65,16 @@ def main(language):
         parameters = parse_table(table) if table.name == "table" else []
 
         if name[0].islower():
-            # To distinguish a section containing method description from any other section
-            # look for an <h4> header that starts with a lowercase letter
-            tg_method = writers.PythonMethodWriter(name, description, parameters)
-            tg_method.write_to_file()
-        elif " " not in name:
-            tg_object = writers.PythonObjectWriter(name, description, parameters)
-            tg_object.write_to_file()
+            # Header of section containing method description start with a lowercase letter
+            method_writer(name, description, parameters).write_to_file(method_output_file)
+        else:
+            # Header of section containing object description start with an uppercase letter
+            object_writer(name, description, parameters).write_to_file(object_output_file)
 
-    os.system('autopep8 --in-place --aggressive "Generated code/Python/methods.py"')
-    # os.system('autopep8 --in-place --aggressive "Generated code/Python/types.py"')
+    # Code file formatting and beautifying
+    if language == "Python":
+        os.system(f'autopep8 --in-place --aggressive --agressive "{method_output_file}"')
+        os.system(f'autopep8 --in-place --aggressive --agressive "{object_output_file}"')
 
 
 if __name__ == "__main__":
