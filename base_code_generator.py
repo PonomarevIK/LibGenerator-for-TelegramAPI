@@ -13,6 +13,7 @@ class BaseMethod(BaseObject):
         super().__init__(name, description, parameters)
         self.return_type = self.get_return_type()
 
+    # todo: simplify? link in description => return type?
     def get_return_type(self) -> str:
         return_type = "{}"
         possible_types = []

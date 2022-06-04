@@ -28,10 +28,6 @@ class PythonObjectWriter(BaseObject):
             for old, new in PythonObjectWriter.replacements.items():
                 self.parameters[i]["type"] = self.parameters[i]["type"].replace(old, new)
 
-    def get_argument_list(self):
-        return ["{name}: {type}".format(**param) for param in self.parameters if not param["is_optional"]] + \
-               ["{name}: {type} = None".format(**param) for param in self.parameters if param["is_optional"]]
-
     @classmethod
     def write_file_header(cls, path):
         with open(path, "w", encoding="utf-8") as output_file:
@@ -56,23 +52,38 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
 
     def __init__(self, name, description, parameters):
         super().__init__(name, description, parameters)
-        self.payload = "\n\t".join(self.payload_generator())
+        self.request_params = "\n    ".join(self.request_params_generator())
         self.pythonify_return_type()
+
+    def argument_generator(self):
+        yield from ("{name}: {type}".format(**arg) for arg in self.parameters if not arg["is_optional"])
+        yield from ("{name}: {type} = None".format(**arg) for arg in self.parameters if arg["is_optional"])
+
+    def request_params_generator(self):
+        # todo: result = "reqest_params['{name}']" + ...
+        yield f"request_params = {'{}' if len(self.parameters) else 'None'}"
+        for param in self.parameters:
+            if param["type"].startswith("list["):
+                yield "reqest_params['{name}'] = [item for item in {name}]".format(**param)
+            elif any(map(str.isupper, param["type"])):
+                yield "request_params['{name}'] = {name}.json".format(**param)
+            else:
+                yield "request_params['{name}'] = {name}".format(**param)
+        # [item.json for item in caption_entities] if startswith list[]
 
     def pythonify_return_type(self):
         for old, new in self.replacements.items():
             self.return_type = self.return_type.replace(old, new)
 
-    def payload_generator(self):
-        for parameter in self.parameters:
-            if parameter["is_optional"]:
-                yield "if {name} is not None:\n\t\tpayload['{name}'] = {name}".format(**parameter)
-            else:
-                yield "payload['{name}'] = {name}".format(**parameter)
+    def pythonify_return_statement(self):
+        if self.return_type.startswith("list["):
+            return f"{self.return_type[5:-1]}(item) for item in "
+        return ""
 
     def write_to_file(self, path):
         with open(path, "a", encoding="utf-8") as output_file:
-            output_file.write(self.template.format(name=self.name, params=", ".join(self.get_argument_list()),
+            output_file.write(self.template.format(name=self.name, args=", ".join(self.argument_generator()),
                                                    return_type=self.return_type, description=self.description,
-                                                   payload=self.payload))
-            output_file.write("\n\n")
+                                                   request_params="\n    ".join(self.request_params_generator()),
+                                                   return_statement=self.pythonify_return_statement()))
+            output_file.write("\n\n\n")

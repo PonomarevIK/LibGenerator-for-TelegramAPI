@@ -13,16 +13,17 @@ def next_sibling_tag(tag):
     return None
 
 
+def format_types(types: str):
+    types = types.replace("Float number", "Float")  # fixes inconsistent float type naming
+    types = types.replace("Array of ", "[") + "]" * types.count("Array of ")  # Array of Array of X -> [[X]]
+    types = types.replace(", ", " or ").replace(" and ", " or ")  # Array of X, Y and Z -> [X or Y or Z]
+    return types
+
+
 def parse_table(table: bs4.element.Tag):
     """Parses an HTML <table> and returns a list of data from each row"""
     if not isinstance(table, bs4.element.Tag) or table.name != "table":
         raise ValueError("'table' argument must be a BeautifulSoup <table>")
-
-    def format_types(types: str):
-        types = types.replace("Float number", "Float")  # fixes inconsistent float type naming
-        types = types.replace("Array of ", "[") + "]" * types.count("Array of ")  # Array of Array of X -> [[X]]
-        types = types.replace(", ", " or ").replace(" and ", " or ")  # Array of X, Y and Z -> [X or Y or Z]
-        return types
 
     parameters = []
     for row in table.tbody.find_all("tr"):
@@ -73,8 +74,9 @@ def main(language):
 
     # Code file formatting and beautifying
     if language == "Python":
-        os.system(f'autopep8 --in-place --aggressive --agressive "{method_output_file}"')
-        os.system(f'autopep8 --in-place --aggressive --agressive "{object_output_file}"')
+        # os.system(f'autopep8 --in-place --aggressive "{method_output_file}"')
+        # os.system(f'autopep8 --in-place --aggressive --aggressive "{object_output_file}"')
+        pass
 
 
 if __name__ == "__main__":

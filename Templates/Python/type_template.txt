@@ -1,4 +1,4 @@
 class {name}:
 \t"""{description}"""
-\tdef __init__(self):
-\t\tpass
+\tdef __init__(self, json):
+\t\tself.json = json

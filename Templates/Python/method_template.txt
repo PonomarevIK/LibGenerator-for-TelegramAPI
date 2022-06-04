@@ -1,9 +1,8 @@
-def {name}({params}) -> {return_type}:
-\t"""{description}"""
-\tpayload = {{}}
-\t{payload}
+def {name}({args}) -> {return_type}:
+    """{description}"""
+    {request_params}
 
-\tresult = requests.get(API_URL.format(token=token, method={name}), params=payload).json()
-\tif not result['ok']:
-\t\traise Exception('Error {{errno}}: {{error}}'.format(errno = result['error_code'], error = result['description']))
-\treturn result
+    response = requests.get(API_URL.format(token=token, method={name}), params=request_params).json()
+    if not response['ok']:
+        raise requests.exceptions.RequestException('Error {{errno}}: {{error}}'.format(errno=response['error_code'], error=response['description']))
+    return {return_type}({return_statement}response['result'])
