@@ -29,6 +29,10 @@ class PythonObjectWriter(BaseObject):
             for old, new in self.replacements.items():
                 self.parameters[i]["type"] = self.parameters[i]["type"].replace(old, new)
 
+    def docstring_generator(self):
+        yield self.description
+        yield from ("attribute {name}: {description}".format(**param) for param in self.parameters)
+
     def init_generator(self):
         for attr in self.parameters:
             line = "self.{name} = ".format(**attr)
@@ -50,7 +54,7 @@ class PythonObjectWriter(BaseObject):
     def write_to_file(self, path):
         with open(path, "a", encoding="utf-8") as output_file:
             output_file.write(self.template.format(name=self.name,
-                                                   description=self.description,
+                                                   description="\n    ".join(self.docstring_generator()),
                                                    init=f"\n        ".join(self.init_generator())))
             output_file.write("\n\n")
 
