@@ -39,7 +39,7 @@ class PythonObjectWriter(BaseObject):
             else:
                 line += "{type}(json['{name}'])"
             if attr["is_optional"]:
-                line += " if ('{name}' in json) else None"
+                line = f"if '{{name}}' in json:\n            " + line
             yield line.format(**attr)
 
     @classmethod
@@ -49,8 +49,9 @@ class PythonObjectWriter(BaseObject):
 
     def write_to_file(self, path):
         with open(path, "a", encoding="utf-8") as output_file:
-            output_file.write(self.template.format(name=self.name, description=self.description,
-                                                   init="\n        ".join(self.init_generator())))
+            output_file.write(self.template.format(name=self.name,
+                                                   description=self.description,
+                                                   init=f"\n        ".join(self.init_generator())))
             output_file.write("\n\n")
 
 
@@ -58,7 +59,6 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
     template_path = "Templates/Python/method_template.txt"
     header = ("# This code in its entirety was generated and formatted automatically\n\n"
               "import requests\n"
-              "import logging\n"
               "from types import *\n\n"
               f"API_URL = '{API_URL}'\n"
               "token = 'your_bot_token_here'\n"
@@ -72,9 +72,13 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
         super().__init__(name, description, parameters)
         self.pythonify_return_type()
 
-    def argument_generator(self):
-        yield from ("{name}: {type}".format(**arg) for arg in self.parameters if not arg["is_optional"])
-        yield from ("{name}: {type} = None".format(**arg) for arg in self.parameters if arg["is_optional"])
+    def parameter_generator(self):
+        yield from ("{name}: {type}".format(**param) for param in self.parameters if not param["is_optional"])
+        yield from ("{name}: {type} = None".format(**param) for param in self.parameters if param["is_optional"])
+
+    def docstring_generator(self):
+        yield self.description
+        yield from (":param {name}: {description}".format(**param) for param in self.parameters)
 
     def request_params_generator(self):
         yield f"request_params = {'{}' if (len(self.parameters)) else 'None'}"
@@ -101,8 +105,10 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
 
     def write_to_file(self, path):
         with open(path, "a", encoding="utf-8") as output_file:
-            output_file.write(self.template.format(name=self.name, args=", ".join(self.argument_generator()),
-                                                   return_type=self.return_type, description=self.description,
-                                                   request_params="\n    ".join(self.request_params_generator()),
+            output_file.write(self.template.format(name=self.name,
+                                                   params=", ".join(self.parameter_generator()),
+                                                   return_type=self.return_type,
+                                                   description="\n    ".join(self.docstring_generator()),
+                                                   request_params=f"\n    ".join(self.request_params_generator()),
                                                    return_statement=self.pythonify_return_statement()))
             output_file.write("\n\n\n")

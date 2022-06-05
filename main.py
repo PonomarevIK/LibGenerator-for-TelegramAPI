@@ -74,9 +74,8 @@ def main(language):
 
     # Code file formatting and beautifying
     if language == "Python":
-        # os.system(f'autopep8 --in-place --aggressive "{method_output_file}"')
-        # os.system(f'autopep8 --in-place --aggressive --aggressive "{object_output_file}"')
-        pass
+        os.system(f'autopep8 --in-place --aggressive --aggressive "{method_output_file}"')
+        os.system(f'autopep8 --in-place --aggressive --aggressive "{object_output_file}"')
 
 
 if __name__ == "__main__":
