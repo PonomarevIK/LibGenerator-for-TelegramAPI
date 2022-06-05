@@ -40,7 +40,7 @@ class PythonObjectWriter(BaseObject):
                 line += "{type}(json['{name}'])"
             if attr["is_optional"]:
                 line = f"if '{{name}}' in json:\n            " + line
-            yield line.format(**attr)
+            yield line.format(name=attr["name"].removesuffix("_"), type=attr["type"])
 
     @classmethod
     def write_file_header(cls, path):

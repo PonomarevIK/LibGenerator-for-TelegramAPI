@@ -138,8 +138,8 @@ class Message:
     def __init__(self, json):
         self.json = json
         self.message_id = int(json['message_id'])
-        if 'from_' in json:
-            self.from_ = User(json['from_'])
+        if 'from' in json:
+            self.from_ = User(json['from'])
         if 'sender_chat' in json:
             self.sender_chat = Chat(json['sender_chat'])
         self.date = int(json['date'])
@@ -696,7 +696,7 @@ class CallbackQuery:
     def __init__(self, json):
         self.json = json
         self.id = str(json['id'])
-        self.from_ = User(json['from_'])
+        self.from_ = User(json['from'])
         if 'message' in json:
             self.message = Message(json['message'])
         if 'inline_message_id' in json:
@@ -872,7 +872,7 @@ class ChatMemberUpdated:
     def __init__(self, json):
         self.json = json
         self.chat = Chat(json['chat'])
-        self.from_ = User(json['from_'])
+        self.from_ = User(json['from'])
         self.date = int(json['date'])
         self.old_chat_member = ChatMember(json['old_chat_member'])
         self.new_chat_member = ChatMember(json['new_chat_member'])
@@ -886,7 +886,7 @@ class ChatJoinRequest:
     def __init__(self, json):
         self.json = json
         self.chat = Chat(json['chat'])
-        self.from_ = User(json['from_'])
+        self.from_ = User(json['from'])
         self.date = int(json['date'])
         if 'bio' in json:
             self.bio = str(json['bio'])
@@ -1229,7 +1229,7 @@ class InlineQuery:
     def __init__(self, json):
         self.json = json
         self.id = str(json['id'])
-        self.from_ = User(json['from_'])
+        self.from_ = User(json['from'])
         self.query = str(json['query'])
         self.offset = str(json['offset'])
         if 'chat_type' in json:
@@ -1865,7 +1865,7 @@ class ChosenInlineResult:
     def __init__(self, json):
         self.json = json
         self.result_id = str(json['result_id'])
-        self.from_ = User(json['from_'])
+        self.from_ = User(json['from'])
         if 'location' in json:
             self.location = Location(json['location'])
         if 'inline_message_id' in json:
@@ -1965,7 +1965,7 @@ class ShippingQuery:
     def __init__(self, json):
         self.json = json
         self.id = str(json['id'])
-        self.from_ = User(json['from_'])
+        self.from_ = User(json['from'])
         self.invoice_payload = str(json['invoice_payload'])
         self.shipping_address = ShippingAddress(json['shipping_address'])
 
@@ -1976,7 +1976,7 @@ class PreCheckoutQuery:
     def __init__(self, json):
         self.json = json
         self.id = str(json['id'])
-        self.from_ = User(json['from_'])
+        self.from_ = User(json['from'])
         self.currency = str(json['currency'])
         self.total_amount = int(json['total_amount'])
         self.invoice_payload = str(json['invoice_payload'])
