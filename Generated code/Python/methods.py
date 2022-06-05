@@ -22,7 +22,7 @@ def getUpdates(offset: int = None, limit: int = None, timeout: int = None, allow
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
     result = response['result']
 
-    return list[Update](Update(item) for item in result)
+    return [Update(item) for item in result]
 
 
 def setWebhook() -> bool:
@@ -331,7 +331,7 @@ def sendMediaGroup(chat_id: int | str, media: list[InputMediaAudio | InputMediaD
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
     result = response['result']
 
-    return list[Message](Message(item) for item in result)
+    return [Message(item) for item in result]
 
 
 def sendLocation(chat_id: int | str, latitude: float, longitude: float, horizontal_accuracy: float = None, live_period: int = None, heading: int = None, proximity_alert_radius: int = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -884,7 +884,7 @@ def getChatAdministrators(chat_id: int | str) -> list[ChatMember]:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
     result = response['result']
 
-    return list[ChatMember](ChatMember(item) for item in result)
+    return [ChatMember(item) for item in result]
 
 
 def getChatMemberCount(chat_id: int | str) -> int:
@@ -993,7 +993,7 @@ def getMyCommands(scope: BotCommandScope = None, language_code: str = None) -> l
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
     result = response['result']
 
-    return list[BotCommand](BotCommand(item) for item in result)
+    return [BotCommand(item) for item in result]
 
 
 def setChatMenuButton(chat_id: int = None, menu_button: MenuButton = None) -> bool:
@@ -1441,6 +1441,6 @@ def getGameHighScores() -> list[GameHighScore]:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
     result = response['result']
 
-    return list[GameHighScore](GameHighScore(item) for item in result)
+    return [GameHighScore(item) for item in result]
 
 

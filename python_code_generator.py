@@ -13,9 +13,7 @@ class PythonObjectWriter(BaseObject):
         "Int": "int",
         "Float": "float",
         "String": "str"}
-    header = ("# This code in its entirety was generated and formatted automatically\n\n"
-              # "from extra import BaseTgType"
-              "\n\n")
+    header = "# This code in its entirety was generated and formatted automatically\n\n"
 
     with open(template_path, "r", encoding="unicode_escape") as template_file:
         template = template_file.read()
@@ -32,8 +30,17 @@ class PythonObjectWriter(BaseObject):
                 self.parameters[i]["type"] = self.parameters[i]["type"].replace(old, new)
 
     def init_generator(self):
-        yield from ("self.{name} = {type}(json['{name}'])".format(**attr) for attr in self.parameters if not attr["is_optional"])
-        yield from ("self.{name} = {type}(json['{name}']) if ('{name}' in json) else None".format(**attr) for attr in self.parameters if attr["is_optional"])
+        for attr in self.parameters:
+            line = "self.{name} = ".format(**attr)
+            if attr["type"].startswith("list[list["):
+                line += "[[{type}(item) for item in arr] for arr in json['{name}']]"
+            elif attr["type"].startswith("list["):
+                line += "[{type}(item) for item in json['{name}']]"
+            else:
+                line += "{type}(json['{name}'])"
+            if attr["is_optional"]:
+                line += " if ('{name}' in json) else None"
+            yield line.format(**attr)
 
     @classmethod
     def write_file_header(cls, path):
@@ -70,7 +77,7 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
         yield from ("{name}: {type} = None".format(**arg) for arg in self.parameters if arg["is_optional"])
 
     def request_params_generator(self):
-        yield f"request_params = {'{}' if len(self.parameters) else 'None'}"
+        yield f"request_params = {'{}' if (len(self.parameters)) else 'None'}"
         for param in self.parameters:
             line = "request_params['{name}'] = "               # dict that will contain all request parameters
             if any(map(str.isupper, param["type"])):           # args that need to be converted to json are capitalized
@@ -87,9 +94,9 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
             self.return_type = self.return_type.replace(old, new)
 
     def pythonify_return_statement(self):
-        """return list[str] -> return list[str](str(item) for item in result)"""
+        """return list[str] -> return [str(item) for item in result]"""
         if self.return_type.startswith("list["):
-            return self.return_type + f"({self.return_type[5:-1]}(item) for item in result)"
+            return f"[{self.return_type[5:-1]}(item) for item in result]"
         return f"{self.return_type}(result)"
 
     def write_to_file(self, path):

@@ -35,7 +35,7 @@ class WebhookInfo:
         self.last_error_message = str(json['last_error_message']) if ('last_error_message' in json) else None
         self.last_synchronization_error_date = int(json['last_synchronization_error_date']) if ('last_synchronization_error_date' in json) else None
         self.max_connections = int(json['max_connections']) if ('max_connections' in json) else None
-        self.allowed_updates = list[str](json['allowed_updates']) if ('allowed_updates' in json) else None
+        self.allowed_updates = [list[str](item) for item in json['allowed_updates']] if ('allowed_updates' in json) else None
 
 
 class User:
@@ -84,10 +84,10 @@ class Message:
     def __init__(self, json):
         self.json = json
         self.message_id = int(json['message_id'])
-        self.date = int(json['date'])
-        self.chat = Chat(json['chat'])
         self.from_ = User(json['from_']) if ('from_' in json) else None
         self.sender_chat = Chat(json['sender_chat']) if ('sender_chat' in json) else None
+        self.date = int(json['date'])
+        self.chat = Chat(json['chat'])
         self.forward_from = User(json['forward_from']) if ('forward_from' in json) else None
         self.forward_from_chat = Chat(json['forward_from_chat']) if ('forward_from_chat' in json) else None
         self.forward_from_message_id = int(json['forward_from_message_id']) if ('forward_from_message_id' in json) else None
@@ -102,27 +102,27 @@ class Message:
         self.media_group_id = str(json['media_group_id']) if ('media_group_id' in json) else None
         self.author_signature = str(json['author_signature']) if ('author_signature' in json) else None
         self.text = str(json['text']) if ('text' in json) else None
-        self.entities = list[MessageEntity](json['entities']) if ('entities' in json) else None
+        self.entities = [list[MessageEntity](item) for item in json['entities']] if ('entities' in json) else None
         self.animation = Animation(json['animation']) if ('animation' in json) else None
         self.audio = Audio(json['audio']) if ('audio' in json) else None
         self.document = Document(json['document']) if ('document' in json) else None
-        self.photo = list[PhotoSize](json['photo']) if ('photo' in json) else None
+        self.photo = [list[PhotoSize](item) for item in json['photo']] if ('photo' in json) else None
         self.sticker = Sticker(json['sticker']) if ('sticker' in json) else None
         self.video = Video(json['video']) if ('video' in json) else None
         self.video_note = VideoNote(json['video_note']) if ('video_note' in json) else None
         self.voice = Voice(json['voice']) if ('voice' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.contact = Contact(json['contact']) if ('contact' in json) else None
         self.dice = Dice(json['dice']) if ('dice' in json) else None
         self.game = Game(json['game']) if ('game' in json) else None
         self.poll = Poll(json['poll']) if ('poll' in json) else None
         self.venue = Venue(json['venue']) if ('venue' in json) else None
         self.location = Location(json['location']) if ('location' in json) else None
-        self.new_chat_members = list[User](json['new_chat_members']) if ('new_chat_members' in json) else None
+        self.new_chat_members = [list[User](item) for item in json['new_chat_members']] if ('new_chat_members' in json) else None
         self.left_chat_member = User(json['left_chat_member']) if ('left_chat_member' in json) else None
         self.new_chat_title = str(json['new_chat_title']) if ('new_chat_title' in json) else None
-        self.new_chat_photo = list[PhotoSize](json['new_chat_photo']) if ('new_chat_photo' in json) else None
+        self.new_chat_photo = [list[PhotoSize](item) for item in json['new_chat_photo']] if ('new_chat_photo' in json) else None
         self.delete_chat_photo = bool(json['delete_chat_photo']) if ('delete_chat_photo' in json) else None
         self.group_chat_created = bool(json['group_chat_created']) if ('group_chat_created' in json) else None
         self.supergroup_chat_created = bool(json['supergroup_chat_created']) if ('supergroup_chat_created' in json) else None
@@ -287,7 +287,7 @@ class PollAnswer:
         self.json = json
         self.poll_id = str(json['poll_id'])
         self.user = User(json['user'])
-        self.option_ids = list[int](json['option_ids'])
+        self.option_ids = [list[int](item) for item in json['option_ids']]
 
 
 class Poll:
@@ -296,7 +296,7 @@ class Poll:
         self.json = json
         self.id = str(json['id'])
         self.question = str(json['question'])
-        self.options = list[PollOption](json['options'])
+        self.options = [list[PollOption](item) for item in json['options']]
         self.total_voter_count = int(json['total_voter_count'])
         self.is_closed = bool(json['is_closed'])
         self.is_anonymous = bool(json['is_anonymous'])
@@ -304,7 +304,7 @@ class Poll:
         self.allows_multiple_answers = bool(json['allows_multiple_answers'])
         self.correct_option_id = int(json['correct_option_id']) if ('correct_option_id' in json) else None
         self.explanation = str(json['explanation']) if ('explanation' in json) else None
-        self.explanation_entities = list[MessageEntity](json['explanation_entities']) if ('explanation_entities' in json) else None
+        self.explanation_entities = [list[MessageEntity](item) for item in json['explanation_entities']] if ('explanation_entities' in json) else None
         self.open_period = int(json['open_period']) if ('open_period' in json) else None
         self.close_date = int(json['close_date']) if ('close_date' in json) else None
 
@@ -383,7 +383,7 @@ class VideoChatParticipantsInvited:
     """This object represents a service message about new members invited to a video chat."""
     def __init__(self, json):
         self.json = json
-        self.users = list[User](json['users'])
+        self.users = [list[User](item) for item in json['users']]
 
 
 class UserProfilePhotos:
@@ -391,7 +391,7 @@ class UserProfilePhotos:
     def __init__(self, json):
         self.json = json
         self.total_count = int(json['total_count'])
-        self.photos = list[list[PhotoSize]](json['photos'])
+        self.photos = [[list[list[PhotoSize]](item) for item in arr] for arr in json['photos']]
 
 
 class File:
@@ -412,7 +412,7 @@ class ReplyKeyboardMarkup:
     """This object represents a custom keyboard with reply options (see Introduction to bots for details and examples)."""
     def __init__(self, json):
         self.json = json
-        self.keyboard = list[list[KeyboardButton]](json['keyboard'])
+        self.keyboard = [[list[list[KeyboardButton]](item) for item in arr] for arr in json['keyboard']]
         self.resize_keyboard = bool(json['resize_keyboard']) if ('resize_keyboard' in json) else None
         self.one_time_keyboard = bool(json['one_time_keyboard']) if ('one_time_keyboard' in json) else None
         self.input_field_placeholder = str(json['input_field_placeholder']) if ('input_field_placeholder' in json) else None
@@ -449,7 +449,7 @@ class InlineKeyboardMarkup:
     """This object represents an inline keyboard that appears right next to the message it belongs to."""
     def __init__(self, json):
         self.json = json
-        self.inline_keyboard = list[list[InlineKeyboardButton]](json['inline_keyboard'])
+        self.inline_keyboard = [[list[list[InlineKeyboardButton]](item) for item in arr] for arr in json['inline_keyboard']]
 
 
 class InlineKeyboardButton:
@@ -480,9 +480,9 @@ class CallbackQuery:
         self.json = json
         self.id = str(json['id'])
         self.from_ = User(json['from_'])
-        self.chat_instance = str(json['chat_instance'])
         self.message = Message(json['message']) if ('message' in json) else None
         self.inline_message_id = str(json['inline_message_id']) if ('inline_message_id' in json) else None
+        self.chat_instance = str(json['chat_instance'])
         self.data = str(json['data']) if ('data' in json) else None
         self.game_short_name = str(json['game_short_name']) if ('game_short_name' in json) else None
 
@@ -785,7 +785,7 @@ class InputMediaPhoto:
         self.media = str(json['media'])
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
 
 
 class InputMediaVideo:
@@ -797,7 +797,7 @@ class InputMediaVideo:
         self.thumb = InputFile | str(json['thumb']) if ('thumb' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.width = int(json['width']) if ('width' in json) else None
         self.height = int(json['height']) if ('height' in json) else None
         self.duration = int(json['duration']) if ('duration' in json) else None
@@ -813,7 +813,7 @@ class InputMediaAnimation:
         self.thumb = InputFile | str(json['thumb']) if ('thumb' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.width = int(json['width']) if ('width' in json) else None
         self.height = int(json['height']) if ('height' in json) else None
         self.duration = int(json['duration']) if ('duration' in json) else None
@@ -828,7 +828,7 @@ class InputMediaAudio:
         self.thumb = InputFile | str(json['thumb']) if ('thumb' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.duration = int(json['duration']) if ('duration' in json) else None
         self.performer = str(json['performer']) if ('performer' in json) else None
         self.title = str(json['title']) if ('title' in json) else None
@@ -843,7 +843,7 @@ class InputMediaDocument:
         self.thumb = InputFile | str(json['thumb']) if ('thumb' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.disable_content_type_detection = bool(json['disable_content_type_detection']) if ('disable_content_type_detection' in json) else None
 
 
@@ -880,7 +880,7 @@ class StickerSet:
         self.is_animated = bool(json['is_animated'])
         self.is_video = bool(json['is_video'])
         self.contains_masks = bool(json['contains_masks'])
-        self.stickers = list[Sticker](json['stickers'])
+        self.stickers = [list[Sticker](item) for item in json['stickers']]
         self.thumb = PhotoSize(json['thumb']) if ('thumb' in json) else None
 
 
@@ -944,7 +944,7 @@ class InlineQueryResultPhoto:
         self.description = str(json['description']) if ('description' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -956,15 +956,15 @@ class InlineQueryResultGif:
         self.type = str(json['type'])
         self.id = str(json['id'])
         self.gif_url = str(json['gif_url'])
-        self.thumb_url = str(json['thumb_url'])
         self.gif_width = int(json['gif_width']) if ('gif_width' in json) else None
         self.gif_height = int(json['gif_height']) if ('gif_height' in json) else None
         self.gif_duration = int(json['gif_duration']) if ('gif_duration' in json) else None
+        self.thumb_url = str(json['thumb_url'])
         self.thumb_mime_type = str(json['thumb_mime_type']) if ('thumb_mime_type' in json) else None
         self.title = str(json['title']) if ('title' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -976,15 +976,15 @@ class InlineQueryResultMpeg4Gif:
         self.type = str(json['type'])
         self.id = str(json['id'])
         self.mpeg4_url = str(json['mpeg4_url'])
-        self.thumb_url = str(json['thumb_url'])
         self.mpeg4_width = int(json['mpeg4_width']) if ('mpeg4_width' in json) else None
         self.mpeg4_height = int(json['mpeg4_height']) if ('mpeg4_height' in json) else None
         self.mpeg4_duration = int(json['mpeg4_duration']) if ('mpeg4_duration' in json) else None
+        self.thumb_url = str(json['thumb_url'])
         self.thumb_mime_type = str(json['thumb_mime_type']) if ('thumb_mime_type' in json) else None
         self.title = str(json['title']) if ('title' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1006,7 +1006,7 @@ class InlineQueryResultAudio:
         self.title = str(json['title'])
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.performer = str(json['performer']) if ('performer' in json) else None
         self.audio_duration = int(json['audio_duration']) if ('audio_duration' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
@@ -1023,7 +1023,7 @@ class InlineQueryResultVoice:
         self.title = str(json['title'])
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.voice_duration = int(json['voice_duration']) if ('voice_duration' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
@@ -1036,11 +1036,11 @@ class InlineQueryResultDocument:
         self.type = str(json['type'])
         self.id = str(json['id'])
         self.title = str(json['title'])
-        self.document_url = str(json['document_url'])
-        self.mime_type = str(json['mime_type'])
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
+        self.document_url = str(json['document_url'])
+        self.mime_type = str(json['mime_type'])
         self.description = str(json['description']) if ('description' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
@@ -1128,7 +1128,7 @@ class InlineQueryResultCachedPhoto:
         self.description = str(json['description']) if ('description' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1143,7 +1143,7 @@ class InlineQueryResultCachedGif:
         self.title = str(json['title']) if ('title' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1158,7 +1158,7 @@ class InlineQueryResultCachedMpeg4Gif:
         self.title = str(json['title']) if ('title' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1185,7 +1185,7 @@ class InlineQueryResultCachedDocument:
         self.description = str(json['description']) if ('description' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1201,7 +1201,7 @@ class InlineQueryResultCachedVideo:
         self.description = str(json['description']) if ('description' in json) else None
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1216,7 +1216,7 @@ class InlineQueryResultCachedVoice:
         self.title = str(json['title'])
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1230,7 +1230,7 @@ class InlineQueryResultCachedAudio:
         self.audio_file_id = str(json['audio_file_id'])
         self.caption = str(json['caption']) if ('caption' in json) else None
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.caption_entities = list[MessageEntity](json['caption_entities']) if ('caption_entities' in json) else None
+        self.caption_entities = [list[MessageEntity](item) for item in json['caption_entities']] if ('caption_entities' in json) else None
         self.reply_markup = InlineKeyboardMarkup(json['reply_markup']) if ('reply_markup' in json) else None
         self.input_message_content = InputMessageContent(json['input_message_content']) if ('input_message_content' in json) else None
 
@@ -1248,7 +1248,7 @@ class InputTextMessageContent:
         self.json = json
         self.message_text = str(json['message_text'])
         self.parse_mode = str(json['parse_mode']) if ('parse_mode' in json) else None
-        self.entities = list[MessageEntity](json['entities']) if ('entities' in json) else None
+        self.entities = [list[MessageEntity](item) for item in json['entities']] if ('entities' in json) else None
         self.disable_web_page_preview = bool(json['disable_web_page_preview']) if ('disable_web_page_preview' in json) else None
 
 
@@ -1297,9 +1297,9 @@ class InputInvoiceMessageContent:
         self.payload = str(json['payload'])
         self.provider_token = str(json['provider_token'])
         self.currency = str(json['currency'])
-        self.prices = list[LabeledPrice](json['prices'])
+        self.prices = [list[LabeledPrice](item) for item in json['prices']]
         self.max_tip_amount = int(json['max_tip_amount']) if ('max_tip_amount' in json) else None
-        self.suggested_tip_amounts = list[int](json['suggested_tip_amounts']) if ('suggested_tip_amounts' in json) else None
+        self.suggested_tip_amounts = [list[int](item) for item in json['suggested_tip_amounts']] if ('suggested_tip_amounts' in json) else None
         self.provider_data = str(json['provider_data']) if ('provider_data' in json) else None
         self.photo_url = str(json['photo_url']) if ('photo_url' in json) else None
         self.photo_size = int(json['photo_size']) if ('photo_size' in json) else None
@@ -1320,9 +1320,9 @@ class ChosenInlineResult:
         self.json = json
         self.result_id = str(json['result_id'])
         self.from_ = User(json['from_'])
-        self.query = str(json['query'])
         self.location = Location(json['location']) if ('location' in json) else None
         self.inline_message_id = str(json['inline_message_id']) if ('inline_message_id' in json) else None
+        self.query = str(json['query'])
 
 
 class SentWebAppMessage:
@@ -1379,7 +1379,7 @@ class ShippingOption:
         self.json = json
         self.id = str(json['id'])
         self.title = str(json['title'])
-        self.prices = list[LabeledPrice](json['prices'])
+        self.prices = [list[LabeledPrice](item) for item in json['prices']]
 
 
 class SuccessfulPayment:
@@ -1389,10 +1389,10 @@ class SuccessfulPayment:
         self.currency = str(json['currency'])
         self.total_amount = int(json['total_amount'])
         self.invoice_payload = str(json['invoice_payload'])
-        self.telegram_payment_charge_id = str(json['telegram_payment_charge_id'])
-        self.provider_payment_charge_id = str(json['provider_payment_charge_id'])
         self.shipping_option_id = str(json['shipping_option_id']) if ('shipping_option_id' in json) else None
         self.order_info = OrderInfo(json['order_info']) if ('order_info' in json) else None
+        self.telegram_payment_charge_id = str(json['telegram_payment_charge_id'])
+        self.provider_payment_charge_id = str(json['provider_payment_charge_id'])
 
 
 class ShippingQuery:
@@ -1422,7 +1422,7 @@ class PassportData:
     """Contains information about Telegram Passport data shared with the bot by the user."""
     def __init__(self, json):
         self.json = json
-        self.data = list[EncryptedPassportElement](json['data'])
+        self.data = [list[EncryptedPassportElement](item) for item in json['data']]
         self.credentials = EncryptedCredentials(json['credentials'])
 
 
@@ -1441,15 +1441,15 @@ class EncryptedPassportElement:
     def __init__(self, json):
         self.json = json
         self.type = str(json['type'])
-        self.hash = str(json['hash'])
         self.data = str(json['data']) if ('data' in json) else None
         self.phone_number = str(json['phone_number']) if ('phone_number' in json) else None
         self.email = str(json['email']) if ('email' in json) else None
-        self.files = list[PassportFile](json['files']) if ('files' in json) else None
+        self.files = [list[PassportFile](item) for item in json['files']] if ('files' in json) else None
         self.front_side = PassportFile(json['front_side']) if ('front_side' in json) else None
         self.reverse_side = PassportFile(json['reverse_side']) if ('reverse_side' in json) else None
         self.selfie = PassportFile(json['selfie']) if ('selfie' in json) else None
-        self.translation = list[PassportFile](json['translation']) if ('translation' in json) else None
+        self.translation = [list[PassportFile](item) for item in json['translation']] if ('translation' in json) else None
+        self.hash = str(json['hash'])
 
 
 class EncryptedCredentials:
@@ -1525,7 +1525,7 @@ class PassportElementErrorFiles:
         self.json = json
         self.source = str(json['source'])
         self.type = str(json['type'])
-        self.file_hashes = list[str](json['file_hashes'])
+        self.file_hashes = [list[str](item) for item in json['file_hashes']]
         self.message = str(json['message'])
 
 
@@ -1545,7 +1545,7 @@ class PassportElementErrorTranslationFiles:
         self.json = json
         self.source = str(json['source'])
         self.type = str(json['type'])
-        self.file_hashes = list[str](json['file_hashes'])
+        self.file_hashes = [list[str](item) for item in json['file_hashes']]
         self.message = str(json['message'])
 
 
@@ -1565,9 +1565,9 @@ class Game:
         self.json = json
         self.title = str(json['title'])
         self.description = str(json['description'])
-        self.photo = list[PhotoSize](json['photo'])
+        self.photo = [list[PhotoSize](item) for item in json['photo']]
         self.text = str(json['text']) if ('text' in json) else None
-        self.text_entities = list[MessageEntity](json['text_entities']) if ('text_entities' in json) else None
+        self.text_entities = [list[MessageEntity](item) for item in json['text_entities']] if ('text_entities' in json) else None
         self.animation = Animation(json['animation']) if ('animation' in json) else None
 
 
