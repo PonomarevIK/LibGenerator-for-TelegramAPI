@@ -1,10 +1,12 @@
-# This code in its entirety was generated and formated automatically
+# This code in its entirety was generated and formatted automatically
 
 import requests
+import logging
 from types import *
 
 API_URL = 'https://api.telegram.org/bot{token}/{method}'
 token = 'your_bot_token_here'
+logger = None
 
 
 def getUpdates(offset: int = None, limit: int = None, timeout: int = None, allowed_updates: list[str] = None) -> list[Update]:
@@ -18,7 +20,9 @@ def getUpdates(offset: int = None, limit: int = None, timeout: int = None, allow
     response = requests.get(API_URL.format(token=token, method=getUpdates), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return list[Update](Update(item) for item in response['result'])
+    result = response['result']
+
+    return list[Update](Update(item) for item in result)
 
 
 def setWebhook() -> bool:
@@ -28,7 +32,9 @@ def setWebhook() -> bool:
     response = requests.get(API_URL.format(token=token, method=setWebhook), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def deleteWebhook(drop_pending_updates: bool = None) -> bool:
@@ -39,7 +45,9 @@ def deleteWebhook(drop_pending_updates: bool = None) -> bool:
     response = requests.get(API_URL.format(token=token, method=deleteWebhook), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def getWebhookInfo() -> WebhookInfo:
@@ -49,7 +57,9 @@ def getWebhookInfo() -> WebhookInfo:
     response = requests.get(API_URL.format(token=token, method=getWebhookInfo), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return WebhookInfo(response['result'])
+    result = response['result']
+
+    return WebhookInfo(result)
 
 
 def getMe() -> User:
@@ -59,7 +69,9 @@ def getMe() -> User:
     response = requests.get(API_URL.format(token=token, method=getMe), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return User(response['result'])
+    result = response['result']
+
+    return User(result)
 
 
 def logOut() -> bool:
@@ -69,7 +81,9 @@ def logOut() -> bool:
     response = requests.get(API_URL.format(token=token, method=logOut), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def close() -> bool:
@@ -79,7 +93,9 @@ def close() -> bool:
     response = requests.get(API_URL.format(token=token, method=close), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def sendMessage(chat_id: int | str, text: str, parse_mode: str = None, entities: list[MessageEntity] = None, disable_web_page_preview: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -88,7 +104,7 @@ def sendMessage(chat_id: int | str, text: str, parse_mode: str = None, entities:
     request_params['chat_id'] = chat_id
     request_params['text'] = text
     request_params['parse_mode'] = parse_mode
-    request_params['entities'] = entities.json
+    request_params['entities'] = [item.json for item in entities]
     request_params['disable_web_page_preview'] = disable_web_page_preview
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
@@ -99,7 +115,9 @@ def sendMessage(chat_id: int | str, text: str, parse_mode: str = None, entities:
     response = requests.get(API_URL.format(token=token, method=sendMessage), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def forwardMessage(chat_id: int | str, from_chat_id: int | str, message_id: int, disable_notification: bool = None, protect_content: bool = None) -> Message:
@@ -114,7 +132,9 @@ def forwardMessage(chat_id: int | str, from_chat_id: int | str, message_id: int,
     response = requests.get(API_URL.format(token=token, method=forwardMessage), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def copyMessage(chat_id: int | str, from_chat_id: int | str, message_id: int, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> MessageId:
@@ -125,7 +145,7 @@ def copyMessage(chat_id: int | str, from_chat_id: int | str, message_id: int, ca
     request_params['message_id'] = message_id
     request_params['caption'] = caption
     request_params['parse_mode'] = parse_mode
-    request_params['caption_entities'] = caption_entities.json
+    request_params['caption_entities'] = [item.json for item in caption_entities]
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
     request_params['reply_to_message_id'] = reply_to_message_id
@@ -135,7 +155,9 @@ def copyMessage(chat_id: int | str, from_chat_id: int | str, message_id: int, ca
     response = requests.get(API_URL.format(token=token, method=copyMessage), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return MessageId(response['result'])
+    result = response['result']
+
+    return MessageId(result)
 
 
 def sendPhoto(chat_id: int | str, photo: InputFile | str, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -145,7 +167,7 @@ def sendPhoto(chat_id: int | str, photo: InputFile | str, caption: str = None, p
     request_params['photo'] = photo.json
     request_params['caption'] = caption
     request_params['parse_mode'] = parse_mode
-    request_params['caption_entities'] = caption_entities.json
+    request_params['caption_entities'] = [item.json for item in caption_entities]
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
     request_params['reply_to_message_id'] = reply_to_message_id
@@ -155,7 +177,9 @@ def sendPhoto(chat_id: int | str, photo: InputFile | str, caption: str = None, p
     response = requests.get(API_URL.format(token=token, method=sendPhoto), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendAudio() -> Message:
@@ -165,7 +189,9 @@ def sendAudio() -> Message:
     response = requests.get(API_URL.format(token=token, method=sendAudio), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendDocument(chat_id: int | str, document: InputFile | str, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, disable_content_type_detection: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -176,7 +202,7 @@ def sendDocument(chat_id: int | str, document: InputFile | str, thumb: InputFile
     request_params['thumb'] = thumb.json
     request_params['caption'] = caption
     request_params['parse_mode'] = parse_mode
-    request_params['caption_entities'] = caption_entities.json
+    request_params['caption_entities'] = [item.json for item in caption_entities]
     request_params['disable_content_type_detection'] = disable_content_type_detection
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
@@ -187,7 +213,9 @@ def sendDocument(chat_id: int | str, document: InputFile | str, thumb: InputFile
     response = requests.get(API_URL.format(token=token, method=sendDocument), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendVideo(chat_id: int | str, video: InputFile | str, duration: int = None, width: int = None, height: int = None, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, supports_streaming: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -201,7 +229,7 @@ def sendVideo(chat_id: int | str, video: InputFile | str, duration: int = None, 
     request_params['thumb'] = thumb.json
     request_params['caption'] = caption
     request_params['parse_mode'] = parse_mode
-    request_params['caption_entities'] = caption_entities.json
+    request_params['caption_entities'] = [item.json for item in caption_entities]
     request_params['supports_streaming'] = supports_streaming
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
@@ -212,7 +240,9 @@ def sendVideo(chat_id: int | str, video: InputFile | str, duration: int = None, 
     response = requests.get(API_URL.format(token=token, method=sendVideo), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendAnimation(chat_id: int | str, animation: InputFile | str, duration: int = None, width: int = None, height: int = None, thumb: InputFile | str = None, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -226,7 +256,7 @@ def sendAnimation(chat_id: int | str, animation: InputFile | str, duration: int 
     request_params['thumb'] = thumb.json
     request_params['caption'] = caption
     request_params['parse_mode'] = parse_mode
-    request_params['caption_entities'] = caption_entities.json
+    request_params['caption_entities'] = [item.json for item in caption_entities]
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
     request_params['reply_to_message_id'] = reply_to_message_id
@@ -236,7 +266,9 @@ def sendAnimation(chat_id: int | str, animation: InputFile | str, duration: int 
     response = requests.get(API_URL.format(token=token, method=sendAnimation), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendVoice(chat_id: int | str, voice: InputFile | str, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, duration: int = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -246,7 +278,7 @@ def sendVoice(chat_id: int | str, voice: InputFile | str, caption: str = None, p
     request_params['voice'] = voice.json
     request_params['caption'] = caption
     request_params['parse_mode'] = parse_mode
-    request_params['caption_entities'] = caption_entities.json
+    request_params['caption_entities'] = [item.json for item in caption_entities]
     request_params['duration'] = duration
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
@@ -257,7 +289,9 @@ def sendVoice(chat_id: int | str, voice: InputFile | str, caption: str = None, p
     response = requests.get(API_URL.format(token=token, method=sendVoice), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendVideoNote(chat_id: int | str, video_note: InputFile | str, duration: int = None, length: int = None, thumb: InputFile | str = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -277,14 +311,16 @@ def sendVideoNote(chat_id: int | str, video_note: InputFile | str, duration: int
     response = requests.get(API_URL.format(token=token, method=sendVideoNote), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendMediaGroup(chat_id: int | str, media: list[InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo], disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None) -> list[Message]:
     """Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned."""
     request_params = {}
     request_params['chat_id'] = chat_id
-    request_params['media'] = media.json
+    request_params['media'] = [item.json for item in media]
     request_params['disable_notification'] = disable_notification
     request_params['protect_content'] = protect_content
     request_params['reply_to_message_id'] = reply_to_message_id
@@ -293,7 +329,9 @@ def sendMediaGroup(chat_id: int | str, media: list[InputMediaAudio | InputMediaD
     response = requests.get(API_URL.format(token=token, method=sendMediaGroup), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return list[Message](Message(item) for item in response['result'])
+    result = response['result']
+
+    return list[Message](Message(item) for item in result)
 
 
 def sendLocation(chat_id: int | str, latitude: float, longitude: float, horizontal_accuracy: float = None, live_period: int = None, heading: int = None, proximity_alert_radius: int = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -315,10 +353,12 @@ def sendLocation(chat_id: int | str, latitude: float, longitude: float, horizont
     response = requests.get(API_URL.format(token=token, method=sendLocation), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
-def editMessageLiveLocation(latitude: float, longitude: float, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, horizontal_accuracy: float = None, heading: int = None, proximity_alert_radius: int = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageLiveLocation(latitude: float, longitude: float, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, horizontal_accuracy: float = None, heading: int = None, proximity_alert_radius: int = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     request_params = {}
     request_params['chat_id'] = chat_id
@@ -334,10 +374,12 @@ def editMessageLiveLocation(latitude: float, longitude: float, chat_id: int | st
     response = requests.get(API_URL.format(token=token, method=editMessageLiveLocation), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message | bool(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
-def stopMessageLiveLocation(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def stopMessageLiveLocation(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned."""
     request_params = {}
     request_params['chat_id'] = chat_id
@@ -348,7 +390,9 @@ def stopMessageLiveLocation(chat_id: int | str = None, message_id: int = None, i
     response = requests.get(API_URL.format(token=token, method=stopMessageLiveLocation), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message | bool(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendVenue(chat_id: int | str, latitude: float, longitude: float, title: str, address: str, foursquare_id: str = None, foursquare_type: str = None, google_place_id: str = None, google_place_type: str = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -372,7 +416,9 @@ def sendVenue(chat_id: int | str, latitude: float, longitude: float, title: str,
     response = requests.get(API_URL.format(token=token, method=sendVenue), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendContact(chat_id: int | str, phone_number: str, first_name: str, last_name: str = None, vcard: str = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -392,7 +438,9 @@ def sendContact(chat_id: int | str, phone_number: str, first_name: str, last_nam
     response = requests.get(API_URL.format(token=token, method=sendContact), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendPoll(chat_id: int | str, question: str, options: list[str], is_anonymous: bool = None, type: str = None, allows_multiple_answers: bool = None, correct_option_id: int = None, explanation: str = None, explanation_parse_mode: str = None, explanation_entities: list[MessageEntity] = None, open_period: int = None, close_date: int = None, is_closed: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -407,7 +455,7 @@ def sendPoll(chat_id: int | str, question: str, options: list[str], is_anonymous
     request_params['correct_option_id'] = correct_option_id
     request_params['explanation'] = explanation
     request_params['explanation_parse_mode'] = explanation_parse_mode
-    request_params['explanation_entities'] = explanation_entities.json
+    request_params['explanation_entities'] = [item.json for item in explanation_entities]
     request_params['open_period'] = open_period
     request_params['close_date'] = close_date
     request_params['is_closed'] = is_closed
@@ -420,7 +468,9 @@ def sendPoll(chat_id: int | str, question: str, options: list[str], is_anonymous
     response = requests.get(API_URL.format(token=token, method=sendPoll), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendDice(chat_id: int | str, emoji: str = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -437,7 +487,9 @@ def sendDice(chat_id: int | str, emoji: str = None, disable_notification: bool =
     response = requests.get(API_URL.format(token=token, method=sendDice), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def sendChatAction() -> bool:
@@ -447,7 +499,9 @@ def sendChatAction() -> bool:
     response = requests.get(API_URL.format(token=token, method=sendChatAction), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def getUserProfilePhotos(user_id: int, offset: int = None, limit: int = None) -> UserProfilePhotos:
@@ -460,7 +514,9 @@ def getUserProfilePhotos(user_id: int, offset: int = None, limit: int = None) ->
     response = requests.get(API_URL.format(token=token, method=getUserProfilePhotos), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return UserProfilePhotos(response['result'])
+    result = response['result']
+
+    return UserProfilePhotos(result)
 
 
 def getFile(file_id: str) -> File:
@@ -471,7 +527,9 @@ def getFile(file_id: str) -> File:
     response = requests.get(API_URL.format(token=token, method=getFile), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return File(response['result'])
+    result = response['result']
+
+    return File(result)
 
 
 def banChatMember(chat_id: int | str, user_id: int, until_date: int = None, revoke_messages: bool = None) -> bool:
@@ -485,7 +543,9 @@ def banChatMember(chat_id: int | str, user_id: int, until_date: int = None, revo
     response = requests.get(API_URL.format(token=token, method=banChatMember), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def unbanChatMember(chat_id: int | str, user_id: int, only_if_banned: bool = None) -> bool:
@@ -498,7 +558,9 @@ def unbanChatMember(chat_id: int | str, user_id: int, only_if_banned: bool = Non
     response = requests.get(API_URL.format(token=token, method=unbanChatMember), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def restrictChatMember(chat_id: int | str, user_id: int, permissions: ChatPermissions, until_date: int = None) -> bool:
@@ -512,7 +574,9 @@ def restrictChatMember(chat_id: int | str, user_id: int, permissions: ChatPermis
     response = requests.get(API_URL.format(token=token, method=restrictChatMember), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def promoteChatMember(chat_id: int | str, user_id: int, is_anonymous: bool = None, can_manage_chat: bool = None, can_post_messages: bool = None, can_edit_messages: bool = None, can_delete_messages: bool = None, can_manage_video_chats: bool = None, can_restrict_members: bool = None, can_promote_members: bool = None, can_change_info: bool = None, can_invite_users: bool = None, can_pin_messages: bool = None) -> bool:
@@ -535,7 +599,9 @@ def promoteChatMember(chat_id: int | str, user_id: int, is_anonymous: bool = Non
     response = requests.get(API_URL.format(token=token, method=promoteChatMember), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setChatAdministratorCustomTitle(chat_id: int | str, user_id: int, custom_title: str) -> bool:
@@ -548,7 +614,9 @@ def setChatAdministratorCustomTitle(chat_id: int | str, user_id: int, custom_tit
     response = requests.get(API_URL.format(token=token, method=setChatAdministratorCustomTitle), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def banChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
@@ -560,7 +628,9 @@ def banChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
     response = requests.get(API_URL.format(token=token, method=banChatSenderChat), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def unbanChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
@@ -572,7 +642,9 @@ def unbanChatSenderChat(chat_id: int | str, sender_chat_id: int) -> bool:
     response = requests.get(API_URL.format(token=token, method=unbanChatSenderChat), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setChatPermissions(chat_id: int | str, permissions: ChatPermissions) -> bool:
@@ -584,7 +656,9 @@ def setChatPermissions(chat_id: int | str, permissions: ChatPermissions) -> bool
     response = requests.get(API_URL.format(token=token, method=setChatPermissions), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def exportChatInviteLink(chat_id: int | str) -> str:
@@ -595,7 +669,9 @@ def exportChatInviteLink(chat_id: int | str) -> str:
     response = requests.get(API_URL.format(token=token, method=exportChatInviteLink), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return str(response['result'])
+    result = response['result']
+
+    return str(result)
 
 
 def createChatInviteLink(chat_id: int | str, name: str = None, expire_date: int = None, member_limit: int = None, creates_join_request: bool = None) -> ChatInviteLink:
@@ -610,7 +686,9 @@ def createChatInviteLink(chat_id: int | str, name: str = None, expire_date: int 
     response = requests.get(API_URL.format(token=token, method=createChatInviteLink), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return ChatInviteLink(response['result'])
+    result = response['result']
+
+    return ChatInviteLink(result)
 
 
 def editChatInviteLink(chat_id: int | str, invite_link: str, name: str = None, expire_date: int = None, member_limit: int = None, creates_join_request: bool = None) -> ChatInviteLink:
@@ -626,7 +704,9 @@ def editChatInviteLink(chat_id: int | str, invite_link: str, name: str = None, e
     response = requests.get(API_URL.format(token=token, method=editChatInviteLink), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return ChatInviteLink(response['result'])
+    result = response['result']
+
+    return ChatInviteLink(result)
 
 
 def revokeChatInviteLink(chat_id: int | str, invite_link: str) -> ChatInviteLink:
@@ -638,7 +718,9 @@ def revokeChatInviteLink(chat_id: int | str, invite_link: str) -> ChatInviteLink
     response = requests.get(API_URL.format(token=token, method=revokeChatInviteLink), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return ChatInviteLink(response['result'])
+    result = response['result']
+
+    return ChatInviteLink(result)
 
 
 def approveChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
@@ -650,7 +732,9 @@ def approveChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
     response = requests.get(API_URL.format(token=token, method=approveChatJoinRequest), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def declineChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
@@ -662,7 +746,9 @@ def declineChatJoinRequest(chat_id: int | str, user_id: int) -> bool:
     response = requests.get(API_URL.format(token=token, method=declineChatJoinRequest), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setChatPhoto(chat_id: int | str, photo: InputFile) -> bool:
@@ -674,7 +760,9 @@ def setChatPhoto(chat_id: int | str, photo: InputFile) -> bool:
     response = requests.get(API_URL.format(token=token, method=setChatPhoto), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def deleteChatPhoto(chat_id: int | str) -> bool:
@@ -685,7 +773,9 @@ def deleteChatPhoto(chat_id: int | str) -> bool:
     response = requests.get(API_URL.format(token=token, method=deleteChatPhoto), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setChatTitle(chat_id: int | str, title: str) -> bool:
@@ -697,7 +787,9 @@ def setChatTitle(chat_id: int | str, title: str) -> bool:
     response = requests.get(API_URL.format(token=token, method=setChatTitle), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setChatDescription(chat_id: int | str, description: str = None) -> bool:
@@ -709,7 +801,9 @@ def setChatDescription(chat_id: int | str, description: str = None) -> bool:
     response = requests.get(API_URL.format(token=token, method=setChatDescription), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def pinChatMessage(chat_id: int | str, message_id: int, disable_notification: bool = None) -> bool:
@@ -722,7 +816,9 @@ def pinChatMessage(chat_id: int | str, message_id: int, disable_notification: bo
     response = requests.get(API_URL.format(token=token, method=pinChatMessage), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def unpinChatMessage(chat_id: int | str, message_id: int = None) -> bool:
@@ -734,7 +830,9 @@ def unpinChatMessage(chat_id: int | str, message_id: int = None) -> bool:
     response = requests.get(API_URL.format(token=token, method=unpinChatMessage), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def unpinAllChatMessages(chat_id: int | str) -> bool:
@@ -745,7 +843,9 @@ def unpinAllChatMessages(chat_id: int | str) -> bool:
     response = requests.get(API_URL.format(token=token, method=unpinAllChatMessages), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def leaveChat(chat_id: int | str) -> bool:
@@ -756,7 +856,9 @@ def leaveChat(chat_id: int | str) -> bool:
     response = requests.get(API_URL.format(token=token, method=leaveChat), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def getChat(chat_id: int | str) -> Chat:
@@ -767,7 +869,9 @@ def getChat(chat_id: int | str) -> Chat:
     response = requests.get(API_URL.format(token=token, method=getChat), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Chat(response['result'])
+    result = response['result']
+
+    return Chat(result)
 
 
 def getChatAdministrators(chat_id: int | str) -> list[ChatMember]:
@@ -778,7 +882,9 @@ def getChatAdministrators(chat_id: int | str) -> list[ChatMember]:
     response = requests.get(API_URL.format(token=token, method=getChatAdministrators), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return list[ChatMember](ChatMember(item) for item in response['result'])
+    result = response['result']
+
+    return list[ChatMember](ChatMember(item) for item in result)
 
 
 def getChatMemberCount(chat_id: int | str) -> int:
@@ -789,7 +895,9 @@ def getChatMemberCount(chat_id: int | str) -> int:
     response = requests.get(API_URL.format(token=token, method=getChatMemberCount), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return int(response['result'])
+    result = response['result']
+
+    return int(result)
 
 
 def getChatMember(chat_id: int | str, user_id: int) -> ChatMember:
@@ -801,7 +909,9 @@ def getChatMember(chat_id: int | str, user_id: int) -> ChatMember:
     response = requests.get(API_URL.format(token=token, method=getChatMember), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return ChatMember(response['result'])
+    result = response['result']
+
+    return ChatMember(result)
 
 
 def setChatStickerSet(chat_id: int | str, sticker_set_name: str) -> bool:
@@ -813,7 +923,9 @@ def setChatStickerSet(chat_id: int | str, sticker_set_name: str) -> bool:
     response = requests.get(API_URL.format(token=token, method=setChatStickerSet), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def deleteChatStickerSet(chat_id: int | str) -> bool:
@@ -824,7 +936,9 @@ def deleteChatStickerSet(chat_id: int | str) -> bool:
     response = requests.get(API_URL.format(token=token, method=deleteChatStickerSet), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def answerCallbackQuery() -> bool:
@@ -834,20 +948,24 @@ def answerCallbackQuery() -> bool:
     response = requests.get(API_URL.format(token=token, method=answerCallbackQuery), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setMyCommands(commands: list[BotCommand], scope: BotCommandScope = None, language_code: str = None) -> bool:
     """Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success."""
     request_params = {}
-    request_params['commands'] = commands.json
+    request_params['commands'] = [item.json for item in commands]
     request_params['scope'] = scope.json
     request_params['language_code'] = language_code
 
     response = requests.get(API_URL.format(token=token, method=setMyCommands), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def deleteMyCommands(scope: BotCommandScope = None, language_code: str = None) -> bool:
@@ -859,7 +977,9 @@ def deleteMyCommands(scope: BotCommandScope = None, language_code: str = None) -
     response = requests.get(API_URL.format(token=token, method=deleteMyCommands), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def getMyCommands(scope: BotCommandScope = None, language_code: str = None) -> list[BotCommand]:
@@ -871,7 +991,9 @@ def getMyCommands(scope: BotCommandScope = None, language_code: str = None) -> l
     response = requests.get(API_URL.format(token=token, method=getMyCommands), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return list[BotCommand](BotCommand(item) for item in response['result'])
+    result = response['result']
+
+    return list[BotCommand](BotCommand(item) for item in result)
 
 
 def setChatMenuButton(chat_id: int = None, menu_button: MenuButton = None) -> bool:
@@ -883,7 +1005,9 @@ def setChatMenuButton(chat_id: int = None, menu_button: MenuButton = None) -> bo
     response = requests.get(API_URL.format(token=token, method=setChatMenuButton), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def getChatMenuButton(chat_id: int = None) -> MenuButton:
@@ -894,7 +1018,9 @@ def getChatMenuButton(chat_id: int = None) -> MenuButton:
     response = requests.get(API_URL.format(token=token, method=getChatMenuButton), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return MenuButton(response['result'])
+    result = response['result']
+
+    return MenuButton(result)
 
 
 def setMyDefaultAdministratorRights(rights: ChatAdministratorRights = None, for_channels: bool = None) -> bool:
@@ -906,7 +1032,9 @@ def setMyDefaultAdministratorRights(rights: ChatAdministratorRights = None, for_
     response = requests.get(API_URL.format(token=token, method=setMyDefaultAdministratorRights), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def getMyDefaultAdministratorRights(for_channels: bool = None) -> ChatAdministratorRights:
@@ -917,10 +1045,12 @@ def getMyDefaultAdministratorRights(for_channels: bool = None) -> ChatAdministra
     response = requests.get(API_URL.format(token=token, method=getMyDefaultAdministratorRights), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return ChatAdministratorRights(response['result'])
+    result = response['result']
+
+    return ChatAdministratorRights(result)
 
 
-def editMessageText(text: str, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, parse_mode: str = None, entities: list[MessageEntity] = None, disable_web_page_preview: bool = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageText(text: str, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, parse_mode: str = None, entities: list[MessageEntity] = None, disable_web_page_preview: bool = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     request_params = {}
     request_params['chat_id'] = chat_id
@@ -928,17 +1058,19 @@ def editMessageText(text: str, chat_id: int | str = None, message_id: int = None
     request_params['inline_message_id'] = inline_message_id
     request_params['text'] = text
     request_params['parse_mode'] = parse_mode
-    request_params['entities'] = entities.json
+    request_params['entities'] = [item.json for item in entities]
     request_params['disable_web_page_preview'] = disable_web_page_preview
     request_params['reply_markup'] = reply_markup.json
 
     response = requests.get(API_URL.format(token=token, method=editMessageText), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message | bool(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
-def editMessageCaption(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageCaption(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, caption: str = None, parse_mode: str = None, caption_entities: list[MessageEntity] = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     request_params = {}
     request_params['chat_id'] = chat_id
@@ -946,16 +1078,18 @@ def editMessageCaption(chat_id: int | str = None, message_id: int = None, inline
     request_params['inline_message_id'] = inline_message_id
     request_params['caption'] = caption
     request_params['parse_mode'] = parse_mode
-    request_params['caption_entities'] = caption_entities.json
+    request_params['caption_entities'] = [item.json for item in caption_entities]
     request_params['reply_markup'] = reply_markup.json
 
     response = requests.get(API_URL.format(token=token, method=editMessageCaption), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message | bool(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
-def editMessageMedia(media: InputMedia, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageMedia(media: InputMedia, chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     request_params = {}
     request_params['chat_id'] = chat_id
@@ -967,10 +1101,12 @@ def editMessageMedia(media: InputMedia, chat_id: int | str = None, message_id: i
     response = requests.get(API_URL.format(token=token, method=editMessageMedia), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message | bool(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
-def editMessageReplyMarkup(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message | bool:
+def editMessageReplyMarkup(chat_id: int | str = None, message_id: int = None, inline_message_id: str = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
     """Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned."""
     request_params = {}
     request_params['chat_id'] = chat_id
@@ -981,7 +1117,9 @@ def editMessageReplyMarkup(chat_id: int | str = None, message_id: int = None, in
     response = requests.get(API_URL.format(token=token, method=editMessageReplyMarkup), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message | bool(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def stopPoll(chat_id: int | str, message_id: int, reply_markup: InlineKeyboardMarkup = None) -> Poll:
@@ -994,7 +1132,9 @@ def stopPoll(chat_id: int | str, message_id: int, reply_markup: InlineKeyboardMa
     response = requests.get(API_URL.format(token=token, method=stopPoll), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Poll(response['result'])
+    result = response['result']
+
+    return Poll(result)
 
 
 def deleteMessage(chat_id: int | str, message_id: int) -> bool:
@@ -1006,7 +1146,9 @@ def deleteMessage(chat_id: int | str, message_id: int) -> bool:
     response = requests.get(API_URL.format(token=token, method=deleteMessage), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def sendSticker(chat_id: int | str, sticker: InputFile | str, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None) -> Message:
@@ -1023,7 +1165,9 @@ def sendSticker(chat_id: int | str, sticker: InputFile | str, disable_notificati
     response = requests.get(API_URL.format(token=token, method=sendSticker), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def getStickerSet(name: str) -> StickerSet:
@@ -1034,7 +1178,9 @@ def getStickerSet(name: str) -> StickerSet:
     response = requests.get(API_URL.format(token=token, method=getStickerSet), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return StickerSet(response['result'])
+    result = response['result']
+
+    return StickerSet(result)
 
 
 def uploadStickerFile(user_id: int, png_sticker: InputFile) -> File:
@@ -1046,7 +1192,9 @@ def uploadStickerFile(user_id: int, png_sticker: InputFile) -> File:
     response = requests.get(API_URL.format(token=token, method=uploadStickerFile), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return File(response['result'])
+    result = response['result']
+
+    return File(result)
 
 
 def createNewStickerSet(user_id: int, name: str, title: str, emojis: str, png_sticker: InputFile | str = None, tgs_sticker: InputFile = None, webm_sticker: InputFile = None, contains_masks: bool = None, mask_position: MaskPosition = None) -> bool:
@@ -1065,7 +1213,9 @@ def createNewStickerSet(user_id: int, name: str, title: str, emojis: str, png_st
     response = requests.get(API_URL.format(token=token, method=createNewStickerSet), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def addStickerToSet(user_id: int, name: str, emojis: str, png_sticker: InputFile | str = None, tgs_sticker: InputFile = None, webm_sticker: InputFile = None, mask_position: MaskPosition = None) -> bool:
@@ -1082,7 +1232,9 @@ def addStickerToSet(user_id: int, name: str, emojis: str, png_sticker: InputFile
     response = requests.get(API_URL.format(token=token, method=addStickerToSet), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setStickerPositionInSet(sticker: str, position: int) -> bool:
@@ -1094,7 +1246,9 @@ def setStickerPositionInSet(sticker: str, position: int) -> bool:
     response = requests.get(API_URL.format(token=token, method=setStickerPositionInSet), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def deleteStickerFromSet(sticker: str) -> bool:
@@ -1105,7 +1259,9 @@ def deleteStickerFromSet(sticker: str) -> bool:
     response = requests.get(API_URL.format(token=token, method=deleteStickerFromSet), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setStickerSetThumb(name: str, user_id: int, thumb: InputFile | str = None) -> bool:
@@ -1118,14 +1274,16 @@ def setStickerSetThumb(name: str, user_id: int, thumb: InputFile | str = None) -
     response = requests.get(API_URL.format(token=token, method=setStickerSetThumb), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def answerInlineQuery(inline_query_id: str, results: list[InlineQueryResult], cache_time: int = None, is_personal: bool = None, next_offset: str = None, switch_pm_text: str = None, switch_pm_parameter: str = None) -> bool:
     """Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed."""
     request_params = {}
     request_params['inline_query_id'] = inline_query_id
-    request_params['results'] = results.json
+    request_params['results'] = [item.json for item in results]
     request_params['cache_time'] = cache_time
     request_params['is_personal'] = is_personal
     request_params['next_offset'] = next_offset
@@ -1135,7 +1293,9 @@ def answerInlineQuery(inline_query_id: str, results: list[InlineQueryResult], ca
     response = requests.get(API_URL.format(token=token, method=answerInlineQuery), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def answerWebAppQuery(web_app_query_id: str, result: InlineQueryResult) -> SentWebAppMessage:
@@ -1147,7 +1307,9 @@ def answerWebAppQuery(web_app_query_id: str, result: InlineQueryResult) -> SentW
     response = requests.get(API_URL.format(token=token, method=answerWebAppQuery), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return SentWebAppMessage(response['result'])
+    result = response['result']
+
+    return SentWebAppMessage(result)
 
 
 def sendInvoice(chat_id: int | str, title: str, description: str, payload: str, provider_token: str, currency: str, prices: list[LabeledPrice], max_tip_amount: int = None, suggested_tip_amounts: list[int] = None, start_parameter: str = None, provider_data: str = None, photo_url: str = None, photo_size: int = None, photo_width: int = None, photo_height: int = None, need_name: bool = None, need_phone_number: bool = None, need_email: bool = None, need_shipping_address: bool = None, send_phone_number_to_provider: bool = None, send_email_to_provider: bool = None, is_flexible: bool = None, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
@@ -1159,7 +1321,7 @@ def sendInvoice(chat_id: int | str, title: str, description: str, payload: str, 
     request_params['payload'] = payload
     request_params['provider_token'] = provider_token
     request_params['currency'] = currency
-    request_params['prices'] = prices.json
+    request_params['prices'] = [item.json for item in prices]
     request_params['max_tip_amount'] = max_tip_amount
     request_params['suggested_tip_amounts'] = suggested_tip_amounts
     request_params['start_parameter'] = start_parameter
@@ -1184,7 +1346,9 @@ def sendInvoice(chat_id: int | str, title: str, description: str, payload: str, 
     response = requests.get(API_URL.format(token=token, method=sendInvoice), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def answerShippingQuery(shipping_query_id: str, ok: bool, shipping_options: list[ShippingOption] = None, error_message: str = None) -> bool:
@@ -1192,13 +1356,15 @@ def answerShippingQuery(shipping_query_id: str, ok: bool, shipping_options: list
     request_params = {}
     request_params['shipping_query_id'] = shipping_query_id
     request_params['ok'] = ok
-    request_params['shipping_options'] = shipping_options.json
+    request_params['shipping_options'] = [item.json for item in shipping_options]
     request_params['error_message'] = error_message
 
     response = requests.get(API_URL.format(token=token, method=answerShippingQuery), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def answerPreCheckoutQuery(pre_checkout_query_id: str, ok: bool, error_message: str = None) -> bool:
@@ -1211,7 +1377,9 @@ def answerPreCheckoutQuery(pre_checkout_query_id: str, ok: bool, error_message: 
     response = requests.get(API_URL.format(token=token, method=answerPreCheckoutQuery), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def setPassportDataErrors() -> bool:
@@ -1221,7 +1389,9 @@ def setPassportDataErrors() -> bool:
     response = requests.get(API_URL.format(token=token, method=setPassportDataErrors), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return bool(response['result'])
+    result = response['result']
+
+    return bool(result)
 
 
 def sendGame(chat_id: int, game_short_name: str, disable_notification: bool = None, protect_content: bool = None, reply_to_message_id: int = None, allow_sending_without_reply: bool = None, reply_markup: InlineKeyboardMarkup = None) -> Message:
@@ -1238,10 +1408,12 @@ def sendGame(chat_id: int, game_short_name: str, disable_notification: bool = No
     response = requests.get(API_URL.format(token=token, method=sendGame), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
-def setGameScore(user_id: int, score: int, force: bool = None, disable_edit_message: bool = None, chat_id: int = None, message_id: int = None, inline_message_id: str = None) -> Message | bool:
+def setGameScore(user_id: int, score: int, force: bool = None, disable_edit_message: bool = None, chat_id: int = None, message_id: int = None, inline_message_id: str = None) -> Message:
     """Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False."""
     request_params = {}
     request_params['user_id'] = user_id
@@ -1255,7 +1427,9 @@ def setGameScore(user_id: int, score: int, force: bool = None, disable_edit_mess
     response = requests.get(API_URL.format(token=token, method=setGameScore), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return Message | bool(response['result'])
+    result = response['result']
+
+    return Message(result)
 
 
 def getGameHighScores() -> list[GameHighScore]:
@@ -1265,6 +1439,8 @@ def getGameHighScores() -> list[GameHighScore]:
     response = requests.get(API_URL.format(token=token, method=getGameHighScores), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {errno}: {error}'.format(errno=response['error_code'], error=response['description']))
-    return list[GameHighScore](GameHighScore(item) for item in response['result'])
+    result = response['result']
+
+    return list[GameHighScore](GameHighScore(item) for item in result)
 
 

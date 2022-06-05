@@ -5,4 +5,6 @@ def {name}({args}) -> {return_type}:
     response = requests.get(API_URL.format(token=token, method={name}), params=request_params).json()
     if not response['ok']:
         raise requests.exceptions.RequestException('Error {{errno}}: {{error}}'.format(errno=response['error_code'], error=response['description']))
-    return {return_type}({return_statement}response['result'])
+    result = response['result']
+
+    return {return_statement}

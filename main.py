@@ -40,7 +40,7 @@ def main(language):
     soup = bs4.BeautifulSoup(requests.get(DOCS_LOCATION).text, "html.parser",
                              parse_only=bs4.SoupStrainer("div", id="dev_page_content"))
 
-    if language == "Python":
+    if language.lower() == "python":
         import python_code_generator
         method_writer = python_code_generator.PythonMethodWriter
         object_writer = python_code_generator.PythonObjectWriter

@@ -1,4 +1,5 @@
 class {name}:
-\t"""{description}"""
-\tdef __init__(self, json):
-\t\tself.json = json
+    """{description}"""
+    def __init__(self, json):
+        self.json = json
+        {init}
