@@ -14,6 +14,7 @@ class BaseMethod(BaseObject):
         self.return_type = self.get_return_type()
 
     def get_return_type(self) -> str:
+        """Finds what type a method returns based on its description (not 100 % reliable but currently works)"""
         return_type = "{}"
         for sentence in self.description.split("."):
             if "error" in sentence:

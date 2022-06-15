@@ -5,10 +5,10 @@ import os
 DOCS_LOCATION = "https://core.telegram.org/bots/api"
 
 
-def next_sibling_tag(tag):
+def next_sibling_tag(tag: bs4.element.Tag):
     while tag is not None:
         tag = tag.next_sibling
-        if type(tag) == bs4.element.Tag:
+        if isinstance(tag, bs4.element.Tag):
             return tag
     return None
 
@@ -57,13 +57,13 @@ def main(language):
         name = h4.text
 
         if " " in name:
-            continue  # headers that contain spaces are skipped, they are neither methods nor objects
+            continue  # headers that contain spaces are skipped, they describe neither methods nor objects
 
         paragraph = next_sibling_tag(h4)
-        description = paragraph.text if paragraph.name == "p" else ""
+        description = paragraph.text if (paragraph and paragraph.name == "p") else ""
 
         table = next_sibling_tag(paragraph)
-        parameters = parse_table(table) if table.name == "table" else []
+        parameters = parse_table(table) if (table and table.name == "table") else []
 
         if name[0].islower():
             # Header of section containing method description start with a lowercase letter
@@ -72,10 +72,10 @@ def main(language):
             # Header of section containing object description start with an uppercase letter
             object_writer(name, description, parameters).write_to_file(object_output_file)
 
-    # Code file formatting and beautifying
+    # Code formatting and beautifying
     if language == "Python":
-        os.system(f'autopep8 --in-place --aggressive --aggressive "{method_output_file}"')
-        os.system(f'autopep8 --in-place --aggressive --aggressive "{object_output_file}"')
+        os.system(f'black "{method_output_file}"')
+        os.system(f'black "{object_output_file}"')
 
 
 if __name__ == "__main__":
