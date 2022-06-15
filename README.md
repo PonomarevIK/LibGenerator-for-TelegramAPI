@@ -11,6 +11,15 @@ and automatically formats/beautyfies it. It does **not** create a full working l
 It currently only generates python code, but by adding new template files and your own custom Writer objects to the hierarchy you can make it write code 
 for any other programming language.
 
+
+### Requirements:
+`pip install beautifulsoup4`
+
+`pip install requests`
+
+`pip install black`
+
+
 ### LOC Generated
 Python: ~6000 lines
 
