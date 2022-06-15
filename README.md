@@ -13,3 +13,7 @@ for any other programming language.
 
 ### LOC Generated
 Python: ~6000 lines
+
+Example:
+
+![example](https://user-images.githubusercontent.com/98107123/173823838-44f3f275-0f30-450d-8727-95362d836bdc.jpg)
