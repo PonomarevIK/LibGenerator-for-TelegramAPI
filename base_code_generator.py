@@ -1,5 +1,5 @@
+import re
 API_URL = "https://api.telegram.org/bot{token}/{method}"
-
 
 class BaseObject:
     def __init__(self, name, description, parameters):
@@ -14,17 +14,18 @@ class BaseMethod(BaseObject):
         self.return_type = self.get_return_type()
 
     def get_return_type(self) -> str:
-        """Finds what type a method returns based on its description (not 100 % reliable but currently works)"""
-        return_type = "{}"
+        """Finds what type of object a method returns based on its description (not 100 % reliable but works for now).
+        The way it works is it finds a sentence with word 'return' in it. Then finds and returns the first
+        capitalized word from that sentence, because type names are capitalized in the docs"""
+        return_type = "Null"
+        capitalized_word = re.compile(r"(?!Array)\b([A-Z]\w*)\b")  # finds any capitalized word except for "Array"
+
         for sentence in self.description.split("."):
-            if "error" in sentence:
+            if "error" in sentence.lower():
                 continue
             if "return" in sentence.lower():
-                for word in sentence.split()[1:]:
-                    if word.lower() == "array":
-                        return_type = "[" + return_type + "]"
-                    elif word == "True":
-                        return "Boolean"
-                    elif word and word[0].isupper():
-                        return return_type.format(word.removesuffix("s") if ("[" in return_type) else word)
+                if match := capitalized_word.search(sentence.lstrip(), 1):  # skip the first letter, its always capital
+                    return_type = match.group()
+                    if "array" in sentence.lower():
+                        return_type = f"[{return_type.removesuffix('s')}]"
         return return_type
