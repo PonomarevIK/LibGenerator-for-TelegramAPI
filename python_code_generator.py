@@ -12,7 +12,8 @@ class PythonObjectWriter(BaseObject):
         "Integer": "int",
         "Int": "int",
         "Float": "float",
-        "String": "str"}
+        "String": "str",
+        "Null": "None", }
     header = "# This code in its entirety was generated and formatted automatically\n\n"
 
     with open(template_path, "r", encoding="unicode_escape") as template_file:
@@ -23,17 +24,21 @@ class PythonObjectWriter(BaseObject):
         self.pythonify_parameters()
 
     def pythonify_parameters(self):
+        """Replaces parameter types with their python version"""
         for i, parameter in enumerate(self.parameters):
             if iskeyword(parameter["name"]):
                 self.parameters[i]["name"] += "_"
             for old, new in self.replacements.items():
-                self.parameters[i]["type"] = self.parameters[i]["type"].replace(old, new)
+                if old in self.parameters[i]["type"]:
+                    self.parameters[i]["type"] = self.parameters[i]["type"].replace(old, new)
 
-    def docstring_generator(self):
+    def docstring_generator(self, field_type):
+        """Generates a docstring for each object/method with every attribute/parameter line by line"""
         yield self.description
-        yield from ("attribute {name}: {description}".format(**param) for param in self.parameters)
+        yield from (":{ft} {name}: {description}".format(ft=field_type, **param) for param in self.parameters)
 
     def init_generator(self):
+        """Generated __init__ for each object line by line"""
         for attr in self.parameters:
             line = "self.{name} = ".format(**attr)
             if attr["type"].startswith("list[list["):
@@ -54,7 +59,7 @@ class PythonObjectWriter(BaseObject):
     def write_to_file(self, path):
         with open(path, "a", encoding="utf-8") as output_file:
             output_file.write(self.template.format(name=self.name,
-                                                   description="\n    ".join(self.docstring_generator()),
+                                                   description="\n    ".join(self.docstring_generator("attribute")),
                                                    init=f"\n        ".join(self.init_generator())))
             output_file.write("\n\n")
 
@@ -77,12 +82,9 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
         self.pythonify_return_type()
 
     def parameter_generator(self):
+        """Generates a sequence of parameters with default values for optional parameters"""
         yield from ("{name}: {type}".format(**param) for param in self.parameters if not param["is_optional"])
         yield from ("{name}: {type} = None".format(**param) for param in self.parameters if param["is_optional"])
-
-    def docstring_generator(self):
-        yield self.description
-        yield from (":param {name}: {description}".format(**param) for param in self.parameters)
 
     def request_params_generator(self):
         yield f"request_params = {'{}' if (len(self.parameters)) else 'None'}"
@@ -98,8 +100,10 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
             yield line.format(**param)
 
     def pythonify_return_type(self):
+        """Replaces return type with its python version"""
         for old, new in self.replacements.items():
-            self.return_type = self.return_type.replace(old, new)
+            if old in self.return_type:
+                self.return_type = self.return_type.replace(old, new)
 
     def pythonify_return_statement(self):
         """return list[str] -> return [str(item) for item in result]"""
@@ -112,7 +116,7 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
             output_file.write(self.template.format(name=self.name,
                                                    params=", ".join(self.parameter_generator()),
                                                    return_type=self.return_type,
-                                                   description="\n    ".join(self.docstring_generator()),
+                                                   description="\n    ".join(self.docstring_generator("param")),
                                                    request_params=f"\n    ".join(self.request_params_generator()),
                                                    return_statement=self.pythonify_return_statement()))
             output_file.write("\n\n\n")

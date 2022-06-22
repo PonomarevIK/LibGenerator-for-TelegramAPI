@@ -2608,6 +2608,85 @@ def sendInvoice(
     return Message(result)
 
 
+def createInvoiceLink(
+    title: str,
+    description: str,
+    payload: str,
+    provider_token: str,
+    currency: str,
+    prices: list[LabeledPrice],
+    max_tip_amount: int = None,
+    suggested_tip_amounts: list[int] = None,
+    provider_data: str = None,
+    photo_url: str = None,
+    photo_size: int = None,
+    photo_width: int = None,
+    photo_height: int = None,
+    need_name: bool = None,
+    need_phone_number: bool = None,
+    need_email: bool = None,
+    need_shipping_address: bool = None,
+    send_phone_number_to_provider: bool = None,
+    send_email_to_provider: bool = None,
+    is_flexible: bool = None,
+) -> str:
+    """Use this method to create a link for an invoice. Returns the created invoice link as String on success.
+    :param title: Product name, 1-32 characters
+    :param description: Product description, 1-255 characters
+    :param payload: Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+    :param provider_token: Payment provider token, obtained via BotFather
+    :param currency: Three-letter ISO 4217 currency code, see more on currencies
+    :param prices: Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+    :param max_tip_amount: The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+    :param suggested_tip_amounts: A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+    :param provider_data: JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
+    :param photo_url: URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
+    :param photo_size: Photo size in bytes
+    :param photo_width: Photo width
+    :param photo_height: Photo height
+    :param need_name: Pass True, if you require the user's full name to complete the order
+    :param need_phone_number: Pass True, if you require the user's phone number to complete the order
+    :param need_email: Pass True, if you require the user's email address to complete the order
+    :param need_shipping_address: Pass True, if you require the user's shipping address to complete the order
+    :param send_phone_number_to_provider: Pass True, if the user's phone number should be sent to the provider
+    :param send_email_to_provider: Pass True, if the user's email address should be sent to the provider
+    :param is_flexible: Pass True, if the final price depends on the shipping method"""
+    request_params = {}
+    request_params["title"] = title
+    request_params["description"] = description
+    request_params["payload"] = payload
+    request_params["provider_token"] = provider_token
+    request_params["currency"] = currency
+    request_params["prices"] = [item.json for item in prices]
+    request_params["max_tip_amount"] = max_tip_amount
+    request_params["suggested_tip_amounts"] = suggested_tip_amounts
+    request_params["provider_data"] = provider_data
+    request_params["photo_url"] = photo_url
+    request_params["photo_size"] = photo_size
+    request_params["photo_width"] = photo_width
+    request_params["photo_height"] = photo_height
+    request_params["need_name"] = need_name
+    request_params["need_phone_number"] = need_phone_number
+    request_params["need_email"] = need_email
+    request_params["need_shipping_address"] = need_shipping_address
+    request_params["send_phone_number_to_provider"] = send_phone_number_to_provider
+    request_params["send_email_to_provider"] = send_email_to_provider
+    request_params["is_flexible"] = is_flexible
+
+    response = requests.get(
+        API_URL.format(token=token, method=createInvoiceLink), params=request_params
+    ).json()
+    if not response["ok"]:
+        raise requests.exceptions.RequestException(
+            "Error {errno}: {error}".format(
+                errno=response["error_code"], error=response["description"]
+            )
+        )
+    result = response["result"]
+
+    return str(result)
+
+
 def answerShippingQuery(
     shipping_query_id: str,
     ok: bool,
