@@ -24,7 +24,11 @@ class PythonObjectWriter(BaseObject):
         self.pythonify_parameters()
 
     def pythonify_parameters(self):
-        """Replaces parameter types with their python version"""
+        """Replaces parameter names and types with their python version
+
+        from: User -> from_: User  (from is a python keyword)
+        text: String -> text: str
+        """
         for i, parameter in enumerate(self.parameters):
             if iskeyword(parameter["name"]):
                 self.parameters[i]["name"] += "_"
@@ -38,7 +42,13 @@ class PythonObjectWriter(BaseObject):
         yield from (":{ft} {name}: {description}".format(ft=field_type, **param) for param in self.parameters)
 
     def init_generator(self):
-        """Generated __init__ for each object line by line"""
+        """Generated __init__ method for each object line by line
+
+        user_id: int -> self.user_id = int(json["id"])
+        username: str = None -> \
+        if "username" in json:
+            self.username = str(json["username"])
+        """
         for attr in self.parameters:
             line = "self.{name} = ".format(**attr)
             if attr["type"].startswith("list[list["):
@@ -87,6 +97,12 @@ class PythonMethodWriter(PythonObjectWriter, BaseMethod):
         yield from ("{name}: {type} = None".format(**param) for param in self.parameters if param["is_optional"])
 
     def request_params_generator(self):
+        """
+        request_params["chat_id"] = chat_id
+        request_params["message_id"] = message_id
+        ...
+        response = requests.get(url, ..., params=request_params)
+        """
         yield f"request_params = {'{}' if (len(self.parameters)) else 'None'}"
         for param in self.parameters:
             line = "request_params['{name}'] = "               # dict that will contain all request parameters
